@@ -4,7 +4,7 @@ import { spawnSync } from 'node:child_process';
 await rm('dist/client',{recursive:true,force:true});await rm('dist/server',{recursive:true,force:true});
 await mkdir('dist/client',{recursive:true});
 for(const entry of await readdir('dist',{withFileTypes:true})) {
- if(['client','server','.openai'].includes(entry.name))continue;
+ if(['client','server','pages','.openai'].includes(entry.name))continue;
  await cp(`dist/${entry.name}`,`dist/client/${entry.name}`,{recursive:true});
 }
 const build=spawnSync(process.execPath,['node_modules/wrangler/bin/wrangler.js','deploy','--dry-run','--assets','dist/client','--outdir','dist/server'],{stdio:'inherit',env:{...process.env,WRANGLER_SEND_METRICS:'false'}});

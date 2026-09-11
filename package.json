@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "wrangler dev --local --port 8000 --live-reload",
     "build": "node scripts/build-worker.mjs",
+    "build:pages": "python3 scripts/build-pages.py",
     "db:generate": "drizzle-kit generate",
     "db:local": "wrangler d1 migrations apply spectre-reservations --local",
     "telegram:setup": "node scripts/setup-telegram.mjs"

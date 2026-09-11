@@ -76,9 +76,17 @@ Before enabling production enquiries, configure the database, migrations, initia
 Telegram secrets and the applicable privacy information. Local state is never uploaded
 as part of a source release.
 
-GitHub Pages only serves static content. Publishing the repository there alone will not
-run `/api/bag`, `/api/checkout` or `/api/orders`. Keep the chosen live-site deployment
-separate from a source push unless a matching deployment workflow is configured.
+The public presentation is published at https://vlofmusic.github.io/spectre/ using the
+`codex/github-pages` branch. It includes Studio, Apparel, About and Selected visual work.
+On Pages, apparel enquiries use email. There is no online payment, shared stock check,
+reservation or automatic Telegram notification. Availability is confirmed personally.
+The Worker-backed source retains those server features for a separate server deployment.
+
+To build this explicit static variant, run `python3 scripts/build-pages.py`. Its output is
+`dist/pages/`; publish only that directory to the Pages branch root. `.nojekyll` is included.
+The exporter excludes server bundles, private files and unused checkout scripts, rejects
+symlinks, and preserves normal server behaviour in authored `dist/`. A source push to
+`codex/current-spectre-site` does not automatically update the Pages branch.
 
 ## Media
 

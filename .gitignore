@@ -26,4 +26,6 @@ CHECKSUMS.sha256
 scripts/check-browser-local.mjs
 scripts/set-bot-avatar.mjs
 .sites-runtime/
+.release/
+dist/pages/
 *.log

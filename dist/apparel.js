@@ -1,5 +1,6 @@
 /* Manual gallery, native size radios and honest message-based ordering. */
 (() => {
+  const emailOnly = document.body.dataset.ordering === 'email';
   const photos = [
     ['tests15418','Front','Front view of the black Spectre Hoodie on a model'],
     ['tests15497','Back angle','Model turned to show the back and hood'],
@@ -106,6 +107,15 @@
   const retryStock = $('[data-stock-retry]');
   const hasStock = () => available && stockLabels.every(node => Number.isInteger(available.available?.[node.dataset.sizeStock]) && available.available[node.dataset.sizeStock] >= 0);
   const paintAvailability = () => {
+    if (emailOnly) {
+      $('[data-stock-status]').dataset.stockStatus = 'enquiry';
+      stockLabels.forEach(node => { node.textContent = 'Enquire'; });
+      retryStock.hidden = true;
+      $('[data-availability]').textContent = selectedSize
+        ? `Size ${selectedSize} selected. We confirm availability personally by email.`
+        : 'Choose a size to enquire. Availability is confirmed personally by email.';
+      return;
+    }
     const ready = stockStatus.status === 'ready' && hasStock();
     const loading = stockStatus.status === 'loading';
     $('[data-stock-status]').dataset.stockStatus = ready ? 'ready' : loading ? 'loading' : 'error';
@@ -132,7 +142,8 @@
     selectedSize = $('input[name="size"]:checked')?.value || '';
     paintAvailability();
     $('[data-order-label]').textContent = selectedSize ? `Request size ${selectedSize} by email` : 'Request your size';
-    $('[data-add-label]').textContent = selectedSize ? `Add size ${selectedSize} to bag` : 'Add to bag';
+    const addLabel = $('[data-add-label]');
+    if (addLabel) addLabel.textContent = selectedSize ? `Add size ${selectedSize} to bag` : 'Add to bag';
     if(selectedSize){
       const subject=`Spectre Hoodie — size ${selectedSize}`;
       const body=`Hello, I would like to enquire about the Spectre Hoodie in Black, size ${selectedSize}, CHF 50.\n\nPlease confirm availability, the delivery cost, dispatch date and return terms.\n\nMy delivery location: `;
@@ -143,12 +154,13 @@
       $('[data-measurements]').href='mailto:hello@spectre-studio.co?subject=Spectre%20Hoodie%20measurements';
     }
     $('[data-sticky-summary]').textContent=`CHF 50 · ${selectedSize ? 'Size '+selectedSize : 'Select a size'}`;
-    stickyAction.textContent=selectedSize ? `Add ${selectedSize} to bag +` : 'Choose your size ↑';
-    stickyAction.href='#top';
+    stickyAction.textContent=selectedSize ? (emailOnly ? `Request size ${selectedSize} ↗` : `Add ${selectedSize} to bag +`) : 'Choose your size ↑';
+    stickyAction.href=emailOnly && selectedSize ? order.href : '#top';
   };
   document.querySelectorAll('input[name="size"]').forEach(input => input.addEventListener('change',()=>{$('[data-size-error]').textContent='';updateSize();}));
   const watchStockLoading = () => {
     clearTimeout(stockTimeout);
+    if (emailOnly) return;
     if (stockStatus.status !== 'loading') return;
     // Also provide a recovery path if the reservation script fails to initialise.
     stockTimeout = setTimeout(() => {
