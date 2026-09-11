@@ -1,0 +1,8 @@
+{
+ "$schema":"node_modules/wrangler/config-schema.json",
+ "name":"spectre-local-preview",
+ "main":"server/worker.js",
+ "compatibility_date":"2026-09-01",
+ "assets":{"directory":"./dist","binding":"ASSETS","run_worker_first":["/api/*","/server/*","/.openai/*"]},
+ "d1_databases":[{"binding":"DB","database_name":"spectre-reservations","database_id":"local-spectre-reservations","migrations_dir":"drizzle"}]
+}

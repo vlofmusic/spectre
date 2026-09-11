@@ -1,0 +1,3 @@
+# Local-only Telegram notification settings. Never commit real values.
+TELEGRAM_BOT_TOKEN=""
+TELEGRAM_CHAT_ID=""

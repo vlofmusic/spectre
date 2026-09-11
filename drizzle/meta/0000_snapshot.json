@@ -1,0 +1,158 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "35ce6550-58a0-41a5-8ca7-62d2e06ccb26",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "held_items": {
+      "name": "held_items",
+      "columns": {
+        "token_hash": {
+          "name": "token_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "size": {
+          "name": "size",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "quantity": {
+          "name": "quantity",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "held_size": {
+          "name": "held_size",
+          "columns": [
+            "size"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "held_items_token_hash_holds_token_hash_fk": {
+          "name": "held_items_token_hash_holds_token_hash_fk",
+          "tableFrom": "held_items",
+          "tableTo": "holds",
+          "columnsFrom": [
+            "token_hash"
+          ],
+          "columnsTo": [
+            "token_hash"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "held_items_size_inventory_size_fk": {
+          "name": "held_items_size_inventory_size_fk",
+          "tableFrom": "held_items",
+          "tableTo": "inventory",
+          "columnsFrom": [
+            "size"
+          ],
+          "columnsTo": [
+            "size"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "held_items_token_hash_size_pk": {
+          "columns": [
+            "token_hash",
+            "size"
+          ],
+          "name": "held_items_token_hash_size_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "held_positive": {
+          "name": "held_positive",
+          "value": "\"held_items\".\"quantity\" > 0"
+        }
+      }
+    },
+    "holds": {
+      "name": "holds",
+      "columns": {
+        "token_hash": {
+          "name": "token_hash",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "holds_expiry": {
+          "name": "holds_expiry",
+          "columns": [
+            "expires_at"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "inventory": {
+      "name": "inventory",
+      "columns": {
+        "size": {
+          "name": "size",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "quantity": {
+          "name": "quantity",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "stock_nonnegative": {
+          "name": "stock_nonnegative",
+          "value": "\"inventory\".\"quantity\" >= 0"
+        }
+      }
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}
