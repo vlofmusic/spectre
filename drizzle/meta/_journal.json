@@ -15,6 +15,13 @@
       "when": 1789129173295,
       "tag": "0001_mushy_bloodstorm",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1789158457044,
+      "tag": "0002_inventory_initialization",
+      "breakpoints": true
     }
   ]
 }

@@ -76,17 +76,31 @@ Before enabling production enquiries, configure the database, migrations, initia
 Telegram secrets and the applicable privacy information. Local state is never uploaded
 as part of a source release.
 
-The public presentation is published at https://vlofmusic.github.io/spectre/ using the
-`codex/github-pages` branch. It includes Studio, Apparel, About and Selected visual work.
-On Pages, apparel enquiries use email. There is no online payment, shared stock check,
-reservation or automatic Telegram notification. Availability is confirmed personally.
-The Worker-backed source retains those server features for a separate server deployment.
+The complete server-backed site is hosted at
+https://spectre-studio-refresh.riabchenko-vla995208.chatgpt.site/.
+Its current audience is controlled in Sites; do not assume it is public.
 
-To build this explicit static variant, run `python3 scripts/build-pages.py`. Its output is
-`dist/pages/`; publish only that directory to the Pages branch root. `.nojekyll` is included.
-The exporter excludes server bundles, private files and unused checkout scripts, rejects
-symlinks, and preserves normal server behaviour in authored `dist/`. A source push to
-`codex/current-spectre-site` does not automatically update the Pages branch.
+GitHub Pages cannot execute the reservation or checkout APIs. The previous email-only
+export removed required features and is superseded. Build GitHub entry pages with:
+
+```sh
+python3 scripts/build-pages.py --site-origin https://spectre-studio-refresh.riabchenko-vla995208.chatgpt.site
+```
+
+These preserve incoming page links and fragments by forwarding to the complete site.
+Publish `dist/pages` to the `codex/github-pages` branch only after the destination is
+publicly accessible and its cart has been verified. The source branch remains
+`codex/current-spectre-site`. Publishing must preserve the live cart and availability.
+
+For server packaging after `pnpm build`, run `python3 scripts/package-worker.py release.tar.gz`.
+The archive contains the Worker, client assets and built deployment metadata, including
+`dist/.openai/drizzle` migrations. It contains no credentials or local database state.
+
+The inventory initialization route is administrative and disabled unless a temporary
+`SPECTRE_SETUP_TOKEN` secret is configured. It can seed a completely new database once;
+it cannot refill or reset existing inventory. Remove that temporary secret after setup.
+Checkout requests are enquiries, not paid sales; confirmed manual sales still require
+corresponding inventory management.
 
 ## Media
 

@@ -1,53 +1,47 @@
 #!/usr/bin/env python3
-"""Build the GitHub Pages presentation; the Worker source remains unchanged."""
+"""Keep shared GitHub URLs pointing to the complete server-backed website."""
 from pathlib import Path
-import re
+from urllib.parse import urlsplit
+import argparse
+import html
+import json
 import shutil
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / 'dist'
-OUTPUT = SOURCE / 'pages'
+OUTPUT = ROOT / 'dist' / 'pages'
 
 
-def replace_once(text, old, new):
-    if text.count(old) != 1:
-        raise ValueError('Unexpected source markup: ' + old[:80])
-    return text.replace(old, new, 1)
-
-
-def build():
-    if OUTPUT.is_symlink() or any(path.is_symlink() for path in SOURCE.iterdir()):
-        raise ValueError('Refusing symlink in public source or output')
-    if any(path.is_symlink() for path in (SOURCE / 'assets').rglob('*')):
-        raise ValueError('Refusing symlink in public assets')
+def build(origin):
+    url = urlsplit(origin)
+    if url.scheme != 'https' or not url.netloc or url.username or url.password or url.path not in ('', '/') or url.query or url.fragment:
+        raise ValueError('Provide an HTTPS site origin without a path or credentials')
+    if OUTPUT.is_symlink():
+        raise ValueError('Refusing symlink output')
     if OUTPUT.exists():
         shutil.rmtree(OUTPUT)
     OUTPUT.mkdir()
-    # Copy only authored public formats; never copy private docs, generated bundles,
-    # database state, configuration, symlinks or credentials.
-    for source in SOURCE.iterdir():
-        if source.is_file() and source.suffix in {'.html', '.css', '.js'}:
-            if source.name not in {'cart.js', 'checkout.js', 'catalog.js', 'cart.css', 'checkout.css'}:
-                shutil.copy2(source, OUTPUT / source.name)
-    shutil.copytree(SOURCE / 'assets', OUTPUT / 'assets')
-    page = (OUTPUT / 'apparel.html').read_text()
-    page = replace_once(page, '<body class="apparel-page">', '<body class="apparel-page" data-ordering="email">')
-    page = re.sub(r'^.*(?:href="(?:cart|checkout)\.css|src="(?:cart|checkout|catalog)\.js).*(?:\n|$)', '', page, flags=re.M)
-    page = re.sub(r'^.*<button[^>]*data-open-bag.*(?:\n|$)', '', page, flags=re.M)
-    page = re.sub(r'^.*<button[^>]*data-add-to-bag.*(?:\n|$)', '', page, flags=re.M)
-    page = replace_once(page, 'class="ap-direct-order" data-order', 'class="ap-button ap-button--light" data-glass-action data-order')
-    page = replace_once(page, 'Or request your size by email', 'Request your size by email')
-    page = page.replace('>Check stock</small>', '>Enquire</small>')
-    page = replace_once(page, 'data-stock-status="loading"', 'data-stock-status="enquiry"')
-    page = replace_once(page, 'Current availability is checked online. You can also enquire by email.', 'Choose a size to enquire. Availability is confirmed personally by email.')
-    page = replace_once(page, 'Orders are currently arranged by message. Delivery cost, dispatch date and return terms are confirmed before you order.', 'Orders are arranged by email. No online payment or reservation is made here. We confirm availability, delivery and return terms before you order.')
-    # Do not promote the unconfirmed Instagram placeholder on the public release.
-    page = re.sub(r'^.*<p class="ap-instagram-note".*(?:\n|$)', '', page, flags=re.M)
-    (OUTPUT / 'apparel.html').write_text(page)
+    for name in ['index', 'apparel', 'about', 'work']:
+        destination = origin.rstrip('/') + '/' + ('' if name == 'index' else name + '.html')
+        safe = html.escape(destination, quote=True)
+        title = 'Spectre' if name == 'index' else 'Spectre — ' + name.title()
+        page = f'''<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title><meta http-equiv="refresh" content="0;url={safe}"><link rel="canonical" href="{safe}">
+<meta name="robots" content="noindex"><style>body{{margin:0;min-height:100svh;display:grid;place-items:center;background:#18191b;color:#fff;font:18px Helvetica,Arial,sans-serif}}a{{color:inherit;padding:24px}}</style>
+</head><body><a href="{safe}">Continue to {title} ↗</a><script>
+const destination = new URL({json.dumps(destination)});
+destination.search = location.search;
+destination.hash = location.hash;
+location.replace(destination.href);
+</script></body></html>
+'''
+        (OUTPUT / (name + '.html')).write_text(page)
     (OUTPUT / '.nojekyll').write_text('')
-    print(f'GitHub Pages export: {OUTPUT}')
-    print('Email enquiries only. No API calls, online checkout or stock reservations.')
+    print('Built GitHub entry pages for the complete site:', origin)
+    print('Publish only after the destination and live cart have passed verification.')
 
 
 if __name__ == '__main__':
-    build()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--site-origin', required=True)
+    build(parser.parse_args().site_origin)

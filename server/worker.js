@@ -1,5 +1,6 @@
 import { SIZES,hashToken,readBag,setQuantity } from './reservations.js';
 import { checkoutEnabled,parseOrder,submitOrder } from './orders.js';
+import { initializeInventory } from './inventory-setup.js';
 const json=(value,status=200)=>Response.json(value,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 export default {
  async fetch(request,env) {
@@ -8,6 +9,7 @@ export default {
    if(/^\/(?:server|\.openai|db|docs|drizzle)(?:\/|$)/.test(url.pathname))return new Response('Not found',{status:404});
    return env.ASSETS.fetch(request);
   }
+  if(url.pathname==='/api/admin/initialize-inventory')return initializeInventory(request,env);
   if(!['/api/bag','/api/checkout','/api/orders'].includes(url.pathname))return json({error:'Not found'},404);
   if(!(url.pathname==='/api/checkout'?['GET']:url.pathname==='/api/orders'?['POST']:['GET','POST']).includes(request.method))return json({error:'Method not allowed'},405);
   if(url.pathname==='/api/checkout')return json({enabled:checkoutEnabled(env)});
