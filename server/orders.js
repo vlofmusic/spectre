@@ -1,3 +1,4 @@
+import {boundedSend,createCustomerConfirmation,publicCustomerConfirmation} from './customer-confirmations.js';
 const UNIT_PRICE=50;
 const clean=value=>typeof value==='string'?value.trim().replace(/[\u0000-\u0008\u000b-\u001f\u007f]/g,''):'';
 export function parseOrder(input) {
@@ -8,7 +9,7 @@ export function parseOrder(input) {
  return value;
 }
 export const checkoutEnabled=env=>Boolean(env.DB&&/^\d+:[A-Za-z0-9_-]{20,}$/.test(env.TELEGRAM_BOT_TOKEN||'')&&/^-?\d+$/.test(env.TELEGRAM_CHAT_ID||''));
-const publicOrder=row=>({reference:row.reference,createdAt:row.created_at*1000,holdExpiresAt:row.hold_expires_at*1000,notificationStatus:row.notification_status==='sending'?'pending':row.notification_status});
+const publicOrder=async(env,row,now)=>({reference:row.reference,createdAt:row.created_at*1000,holdExpiresAt:row.hold_expires_at*1000,notificationStatus:row.notification_status==='sending'?'pending':row.notification_status,customerConfirmation:await publicCustomerConfirmation(env,row,now)});
 async function findOrder(db,hash,key) {
  const [result]=await db.batch([db.prepare('SELECT * FROM orders WHERE token_hash=? AND request_key=?').bind(hash,key)]);
  return result.results[0];
@@ -22,24 +23,21 @@ async function deliver(db,row,env,send) {
  const [claim]=await db.batch([db.prepare("UPDATE orders SET notification_status='sending' WHERE reference=? AND notification_status='pending'").bind(row.reference)]);
  if(!claim.meta.changes)return;
  let status='uncertain',messageId=null;
- const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),8000);
  try {
-  const response=await send(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`,{
-   method:'POST',headers:{'Content-Type':'application/json'},signal:controller.signal,
+  const {response,data}=await boundedSend(send,`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`,{
+   method:'POST',headers:{'Content-Type':'application/json'},
    body:JSON.stringify({chat_id:env.TELEGRAM_CHAT_ID,text:notificationText(row),link_preview_options:{is_disabled:true}})
   });
-  const data=await response.json();
   if(response.ok&&data.ok===true&&Number.isSafeInteger(data.result?.message_id)){status='sent';messageId=data.result.message_id;}
   else if(data.ok===false)status='failed';
  }catch{/* Delivery may have occurred. Never blindly resend an ambiguous Telegram request. */}
- finally{clearTimeout(timeout);}
  await db.batch([db.prepare('UPDATE orders SET notification_status=?,message_id=? WHERE reference=?').bind(status,messageId,row.reference)]);
 }
-export async function submitOrder(env,hash,input,now,send=fetch) {
+export async function submitOrder(env,hash,input,now,send=fetch,context={}) {
  if(!hash)return {status:409,body:{error:'Your reservation expired. Choose your size again.'}};
  let row=await findOrder(env.DB,hash,input.requestKey);
  // Look up the original attempt before expiry/config checks: a timed-out browser can recover it.
- if(row)return {status:200,body:{order:publicOrder(row)}};
+ if(row)return {status:200,body:{order:await publicOrder(env,row,now)}};
  if(!checkoutEnabled(env))return {status:503,body:{error:'Online requests are unavailable. Please enquire by email.'}};
  const reference=`SP-${crypto.randomUUID().replaceAll('-','').slice(0,16).toUpperCase()}`;
  const results=await env.DB.batch([
@@ -53,8 +51,12 @@ export async function submitOrder(env,hash,input,now,send=fetch) {
  ]);
  row=results[1].results[0];
  if(!row)return {status:409,body:{error:'Your reservation expired. Choose your size again.'}};
- // Only the transaction that inserted this request attempts delivery.
- if(results[0].meta.changes)await deliver(env.DB,row,env,send);
- row=await findOrder(env.DB,hash,input.requestKey);
- return {status:200,body:{order:publicOrder(row)}};
+ // Only the inserting transaction starts notifications. Both bounded transports run in
+ // parallel; either can fail without losing the saved request or resending on a browser retry.
+ if(results[0].meta.changes)await Promise.allSettled([
+  deliver(env.DB,row,env,send),
+  createCustomerConfirmation(env,row,now,send,context.trustedIp||null)
+ ]);
+ try{row=await findOrder(env.DB,hash,input.requestKey)||row;}catch{/* Keep the durable receipt available even if the final status read fails. */}
+ return {status:200,body:{order:await publicOrder(env,row,now)}};
 }

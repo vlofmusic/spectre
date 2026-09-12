@@ -1,0 +1,65 @@
+/* A quiet enchanted sheen, clipped to the existing folder cover rather than its box. */
+.scope-folder-enchantment { display:none; pointer-events:none; }
+
+@supports (mask-image:linear-gradient(#000,#000)) or (-webkit-mask-image:linear-gradient(#000,#000)) {
+  .scope-folder-enchantment {
+    position:absolute;
+    inset:0;
+    display:block;
+    overflow:hidden;
+    isolation:isolate;
+    -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 16'%3E%3Cpath fill='white' d='M2 2h16c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H2c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2Z'/%3E%3C/svg%3E");
+    mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 16'%3E%3Cpath fill='white' d='M2 2h16c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H2c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2Z'/%3E%3C/svg%3E");
+    -webkit-mask-size:100% 100%;
+    mask-size:100% 100%;
+    -webkit-mask-repeat:no-repeat;
+    mask-repeat:no-repeat;
+    mask-mode:alpha;
+  }
+
+  .scope-folder-enchantment::before,
+  .scope-folder-enchantment::after {
+    content:"";
+    position:absolute;
+    inset:-55%;
+    opacity:0;
+    filter:blur(1.8px);
+    background:repeating-linear-gradient(132deg,
+      transparent 0 31px,
+      #eae6ef08 33px,
+      #f7f5fa50 38px,
+      #e8e3ee20 44px,
+      transparent 50px 80px);
+    animation:scope-enchantment-drift 11s linear infinite;
+    animation-delay:-2s;
+    animation-play-state:paused;
+  }
+  .scope-folder-enchantment::after {
+    filter:blur(2.4px);
+    background:repeating-linear-gradient(132deg,
+      transparent 0 48px,
+      #6f637b0b 50px,
+      #faf9fc2e 53px,
+      #d8d1e00b 57px,
+      transparent 62px 105px);
+    animation-duration:12s;
+    animation-delay:-6s;
+    animation-direction:reverse;
+  }
+  .scope-folder-enchantment.is-enchantment-running::before,
+  .scope-folder-enchantment.is-enchantment-running::after { animation-play-state:running; }
+}
+
+@keyframes scope-enchantment-drift {
+  0% { transform:translate(-14%,-10%) scale(1.65); opacity:0; }
+  16% { opacity:.52; }
+  50% { opacity:.72; }
+  84% { opacity:.46; }
+  100% { transform:translate(14%,10%) scale(1.65); opacity:0; }
+}
+
+@media(prefers-reduced-motion:reduce),(forced-colors:active) {
+  .scope-folder-enchantment { display:none; }
+  .scope-folder-enchantment::before,
+  .scope-folder-enchantment::after { animation:none; }
+}

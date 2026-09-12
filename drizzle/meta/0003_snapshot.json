@@ -1,0 +1,545 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "2a15d978-ab0e-4ea5-9beb-0cca1f7b932c",
+  "prevId": "bd73c716-4506-4824-b3bd-4bbc19980112",
+  "tables": {
+    "customer_confirmation_attempts": {
+      "name": "customer_confirmation_attempts",
+      "columns": {
+        "reference": {
+          "name": "reference",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "hold_key": {
+          "name": "hold_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "recipient_hash": {
+          "name": "recipient_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "ip_hash": {
+          "name": "ip_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "customer_attempt_hold": {
+          "name": "customer_attempt_hold",
+          "columns": [
+            "hold_key"
+          ],
+          "isUnique": false
+        },
+        "customer_attempt_recipient": {
+          "name": "customer_attempt_recipient",
+          "columns": [
+            "recipient_hash",
+            "created_at"
+          ],
+          "isUnique": false
+        },
+        "customer_attempt_ip": {
+          "name": "customer_attempt_ip",
+          "columns": [
+            "ip_hash",
+            "created_at"
+          ],
+          "isUnique": false
+        },
+        "customer_attempt_created": {
+          "name": "customer_attempt_created",
+          "columns": [
+            "created_at"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "customer_confirmation_attempts_reference_orders_reference_fk": {
+          "name": "customer_confirmation_attempts_reference_orders_reference_fk",
+          "tableFrom": "customer_confirmation_attempts",
+          "tableTo": "orders",
+          "columnsFrom": [
+            "reference"
+          ],
+          "columnsTo": [
+            "reference"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "customer_confirmations": {
+      "name": "customer_confirmations",
+      "columns": {
+        "reference": {
+          "name": "reference",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "channel": {
+          "name": "channel",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "link_token_hash": {
+          "name": "link_token_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "link_expires_at": {
+          "name": "link_expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "telegram_chat_id": {
+          "name": "telegram_chat_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "claimed_at": {
+          "name": "claimed_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "attempted_at": {
+          "name": "attempted_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "provider_id": {
+          "name": "provider_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "customer_link_token": {
+          "name": "customer_link_token",
+          "columns": [
+            "link_token_hash"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "customer_confirmations_reference_orders_reference_fk": {
+          "name": "customer_confirmations_reference_orders_reference_fk",
+          "tableFrom": "customer_confirmations",
+          "tableTo": "orders",
+          "columnsFrom": [
+            "reference"
+          ],
+          "columnsTo": [
+            "reference"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "held_items": {
+      "name": "held_items",
+      "columns": {
+        "token_hash": {
+          "name": "token_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "size": {
+          "name": "size",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "quantity": {
+          "name": "quantity",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "held_size": {
+          "name": "held_size",
+          "columns": [
+            "size"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "held_items_token_hash_holds_token_hash_fk": {
+          "name": "held_items_token_hash_holds_token_hash_fk",
+          "tableFrom": "held_items",
+          "tableTo": "holds",
+          "columnsFrom": [
+            "token_hash"
+          ],
+          "columnsTo": [
+            "token_hash"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "held_items_size_inventory_size_fk": {
+          "name": "held_items_size_inventory_size_fk",
+          "tableFrom": "held_items",
+          "tableTo": "inventory",
+          "columnsFrom": [
+            "size"
+          ],
+          "columnsTo": [
+            "size"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "held_items_token_hash_size_pk": {
+          "columns": [
+            "token_hash",
+            "size"
+          ],
+          "name": "held_items_token_hash_size_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "held_positive": {
+          "name": "held_positive",
+          "value": "\"held_items\".\"quantity\" > 0"
+        }
+      }
+    },
+    "holds": {
+      "name": "holds",
+      "columns": {
+        "token_hash": {
+          "name": "token_hash",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "holds_expiry": {
+          "name": "holds_expiry",
+          "columns": [
+            "expires_at"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "inventory": {
+      "name": "inventory",
+      "columns": {
+        "size": {
+          "name": "size",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "quantity": {
+          "name": "quantity",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "stock_nonnegative": {
+          "name": "stock_nonnegative",
+          "value": "\"inventory\".\"quantity\" >= 0"
+        }
+      }
+    },
+    "inventory_initializations": {
+      "name": "inventory_initializations",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "request_key": {
+          "name": "request_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "initialized_at": {
+          "name": "initialized_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "orders": {
+      "name": "orders",
+      "columns": {
+        "reference": {
+          "name": "reference",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "token_hash": {
+          "name": "token_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "request_key": {
+          "name": "request_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "hold_expires_at": {
+          "name": "hold_expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "contact_method": {
+          "name": "contact_method",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "contact": {
+          "name": "contact",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "drawstrings": {
+          "name": "drawstrings",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "items": {
+          "name": "items",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "unit_price": {
+          "name": "unit_price",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "currency": {
+          "name": "currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "notification_status": {
+          "name": "notification_status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'pending'"
+        },
+        "message_id": {
+          "name": "message_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "order_attempt": {
+          "name": "order_attempt",
+          "columns": [
+            "token_hash",
+            "request_key"
+          ],
+          "isUnique": true
+        },
+        "orders_created": {
+          "name": "orders_created",
+          "columns": [
+            "created_at"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "telegram_receipt_updates": {
+      "name": "telegram_receipt_updates",
+      "columns": {
+        "update_id": {
+          "name": "update_id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "telegram_receipt_updates_created": {
+          "name": "telegram_receipt_updates_created",
+          "columns": [
+            "created_at"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}

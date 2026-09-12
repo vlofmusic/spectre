@@ -169,7 +169,9 @@ test('a status-write failure after Telegram delivery remains recoverable and nev
     if (statements.some(statement => statement.query.startsWith('UPDATE orders SET notification_status=?'))) throw new Error('Synthetic write failure');
     return originalBatch(statements);
   };
-  await assert.rejects(submitOrder(env, 'shopper', payload, 101, async () => { attempts++; return sent(); }), /Synthetic write failure/);
+  const saved=await submitOrder(env, 'shopper', payload, 101, async () => { attempts++; return sent(); });
+  assert.equal(saved.status,200);
+  assert.equal(saved.body.order.notificationStatus,'pending');
   env.DB.batch = originalBatch;
   const recovered = await submitOrder(env, 'shopper', payload, 102, failOnSend);
   assert.equal(recovered.body.order.notificationStatus, 'pending');

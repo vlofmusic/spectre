@@ -1,0 +1,99 @@
+/* A quiet, static metallic finish for page and section titles only.
+   Keep real color values: the hero ASCII renderer reads computed color for its ink. */
+:root {
+  --spectre-heading-ink: #1e2025;
+  --spectre-heading-light: #36383e;
+  --spectre-heading-mid: #202126;
+  --spectre-heading-deep: #0c0d10;
+}
+:is(.hero, .ab-hero, .ap-hero, .starting-point, .contact-panel, .ab-practice,
+    .ap-detail-band, .wk-opening, .wk-product) {
+  --spectre-heading-ink: #e3e4e7;
+  --spectre-heading-light: #f4f5f6;
+  --spectre-heading-mid: #dfe1e5;
+  --spectre-heading-deep: #bfc2c8;
+}
+
+/* Explicit whitelist: no nav, FAQ, cards, steps, document excerpts or tab-panel h3s. */
+:is(
+  .page-studio :is(.hero h1, .home-heading h2, .starting-copy h2, .studio-intro > h2,
+    .contact-panel h2, .scope-folder-copy > h3),
+  .page-about :is(.ab-hero h1, .ab-visual-grid h2, .starting-copy h2, .home-heading h2),
+  .apparel-page :is(.ap-product-title h1, .ap-editorial-heading h2, .ap-embroidery-copy h2,
+    .ap-fit h2, .ap-outfits-heading h2, .ap-story h2, .ap-terms-heading h2),
+  .page-work :is(.wk-intro h1, .wk-section-heading h2)
+) {
+  color: var(--spectre-heading-ink);
+}
+
+@supports ((background-clip: text) or (-webkit-background-clip: text)) and (-webkit-text-fill-color: transparent) {
+  :is(
+    .page-studio :is(.hero h1, .home-heading h2, .starting-copy h2, .studio-intro > h2,
+      .contact-panel h2, .scope-folder-copy > h3),
+    .page-about :is(.ab-hero h1, .ab-visual-grid h2, .starting-copy h2, .home-heading h2),
+    .apparel-page :is(.ap-product-title h1, .ap-editorial-heading h2, .ap-embroidery-copy h2,
+      .ap-fit h2, .ap-outfits-heading h2, .ap-story h2, .ap-terms-heading h2),
+    .page-work :is(.wk-intro h1, .wk-section-heading h2)
+  ) {
+    background-image: linear-gradient(172deg,
+      var(--spectre-heading-light) 0%,
+      var(--spectre-heading-mid) 46%,
+      var(--spectre-heading-deep) 100%);
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  /* Inline-block italic lines and the hero keep-together span need their own clip.
+     No font, display, mask, layout or animation properties are changed. */
+  :is(
+    .page-studio :is(.hero h1, .home-heading h2, .starting-copy h2, .studio-intro > h2,
+      .contact-panel h2, .scope-folder-copy > h3),
+    .page-about :is(.ab-hero h1, .ab-visual-grid h2, .starting-copy h2, .home-heading h2),
+    .apparel-page :is(.ap-product-title h1, .ap-editorial-heading h2, .ap-embroidery-copy h2,
+      .ap-fit h2, .ap-outfits-heading h2, .ap-story h2, .ap-terms-heading h2),
+    .page-work :is(.wk-intro h1, .wk-section-heading h2)
+  ) :is(em, span) {
+    color: inherit;
+    background-image: inherit;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* Higher contrast uses the solid ink. There is no motion to disable. */
+@media (prefers-contrast: more), (forced-colors: active) {
+  :is(
+    .page-studio :is(.hero h1, .home-heading h2, .starting-copy h2, .studio-intro > h2,
+      .contact-panel h2, .scope-folder-copy > h3),
+    .page-about :is(.ab-hero h1, .ab-visual-grid h2, .starting-copy h2, .home-heading h2),
+    .apparel-page :is(.ap-product-title h1, .ap-editorial-heading h2, .ap-embroidery-copy h2,
+      .ap-fit h2, .ap-outfits-heading h2, .ap-story h2, .ap-terms-heading h2),
+    .page-work :is(.wk-intro h1, .wk-section-heading h2)
+  ),
+  :is(
+    .page-studio :is(.hero h1, .home-heading h2, .starting-copy h2, .studio-intro > h2,
+      .contact-panel h2, .scope-folder-copy > h3),
+    .page-about :is(.ab-hero h1, .ab-visual-grid h2, .starting-copy h2, .home-heading h2),
+    .apparel-page :is(.ap-product-title h1, .ap-editorial-heading h2, .ap-embroidery-copy h2,
+      .ap-fit h2, .ap-outfits-heading h2, .ap-story h2, .ap-terms-heading h2),
+    .page-work :is(.wk-intro h1, .wk-section-heading h2)
+  ) :is(em, span) {
+    background-image: none;
+    -webkit-text-fill-color: currentColor;
+  }
+}
+@media (forced-colors: active) {
+  :is(
+    .page-studio :is(.hero h1, .home-heading h2, .starting-copy h2, .studio-intro > h2,
+      .contact-panel h2, .scope-folder-copy > h3),
+    .page-about :is(.ab-hero h1, .ab-visual-grid h2, .starting-copy h2, .home-heading h2),
+    .apparel-page :is(.ap-product-title h1, .ap-editorial-heading h2, .ap-embroidery-copy h2,
+      .ap-fit h2, .ap-outfits-heading h2, .ap-story h2, .ap-terms-heading h2),
+    .page-work :is(.wk-intro h1, .wk-section-heading h2)
+  ) {
+    color: CanvasText;
+  }
+}

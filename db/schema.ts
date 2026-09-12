@@ -16,3 +16,20 @@ export const orders=sqliteTable('orders',{
  unitPrice:integer('unit_price').notNull(),currency:text('currency').notNull(),
  notificationStatus:text('notification_status').notNull().default('pending'),messageId:integer('message_id')
 },t=>[uniqueIndex('order_attempt').on(t.tokenHash,t.requestKey),index('orders_created').on(t.createdAt)]);
+// Customer receipts are independent of the owner's notification and never change stock.
+export const customerConfirmations=sqliteTable('customer_confirmations',{
+ reference:text('reference').primaryKey().references(()=>orders.reference,{onDelete:'cascade'}),
+ channel:text('channel').notNull(),status:text('status').notNull(),createdAt:integer('created_at').notNull(),
+ linkTokenHash:text('link_token_hash'),linkExpiresAt:integer('link_expires_at'),
+ telegramChatId:text('telegram_chat_id'),claimedAt:integer('claimed_at'),
+ attemptedAt:integer('attempted_at'),providerId:text('provider_id')
+},t=>[uniqueIndex('customer_link_token').on(t.linkTokenHash)]);
+export const customerConfirmationAttempts=sqliteTable('customer_confirmation_attempts',{
+ reference:text('reference').primaryKey().references(()=>orders.reference,{onDelete:'cascade'}),
+ holdKey:text('hold_key').notNull(),recipientHash:text('recipient_hash').notNull(),
+ ipHash:text('ip_hash'),createdAt:integer('created_at').notNull()
+},t=>[index('customer_attempt_hold').on(t.holdKey),index('customer_attempt_recipient').on(t.recipientHash,t.createdAt),
+ index('customer_attempt_ip').on(t.ipHash,t.createdAt),index('customer_attempt_created').on(t.createdAt)]);
+export const telegramReceiptUpdates=sqliteTable('telegram_receipt_updates',{
+ updateId:integer('update_id').primaryKey(),createdAt:integer('created_at').notNull()
+},t=>[index('telegram_receipt_updates_created').on(t.createdAt)]);

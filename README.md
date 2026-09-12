@@ -78,7 +78,13 @@ as part of a source release.
 
 The complete server-backed site is hosted at
 https://spectre-studio-refresh.riabchenko-vla995208.chatgpt.site/.
-Its current audience is controlled in Sites; do not assume it is public.
+The site is publicly accessible. GitHub Pages provides the shareable entry URL:
+https://vlofmusic.github.io/spectre/.
+
+The version 7 source update includes the redesigned Fusion footer, five labelled scope
+previews and coordinated navigation, image and disclosure motion. The live site is updated
+through a separate Sites deployment; pushing this source branch alone does not publish it.
+Existing runtime secrets, inventory and reservation data must remain unchanged.
 
 GitHub Pages cannot execute the reservation or checkout APIs. The previous email-only
 export removed required features and is superseded. Build GitHub entry pages with:

@@ -1,0 +1,128 @@
+/* The supplied GenerateButton, adapted to an honest contact link.
+   A quiet resting state; interaction light runs once and keeps the label legible. */
+body.page-studio .button.cta-button {
+  position: relative;
+  isolation: isolate;
+  min-height: 56px;
+  gap: 24px;
+  padding: 14px 22px;
+  border: 1px solid #ffffff35;
+  border-radius: 22px;
+  background: linear-gradient(180deg, #302a37, #19151f 68%, #201a29);
+  color: #f6f2fc;
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: 500;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: inset 0 1px 1px #ffffff2b, inset 0 3px 6px #ffffff07,
+    0 4px 12px #08060c38;
+  transform: none;
+  transition: border-color 360ms ease, box-shadow 360ms ease;
+}
+
+/* Recessed outer rim. The shared liquid-motion.js owns the control's press scale. */
+.cta-button::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -5px;
+  border: 1px solid #ffffff12;
+  border-radius: 27px;
+  box-shadow: inset 0 1px 3px #0005, 0 1px 0 #ffffff0d;
+  pointer-events: none;
+}
+
+/* A small light beneath the lower edge, not an animated full-screen blur. */
+.cta-button::after {
+  content: "";
+  position: absolute;
+  inset: auto 18px -1px;
+  height: 2px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, transparent, #c4a9e7 28%, #fff 50%, #c4a9e7 72%, transparent);
+  box-shadow: 0 2px 10px 1px #c4a9e738;
+  opacity: .48;
+  pointer-events: none;
+  transition: opacity 380ms ease, box-shadow 380ms ease;
+}
+
+.cta-button-label { position: relative; }
+.cta-button-label > span { display: inline-block; }
+.cta-button-label > span:nth-child(2) { --letter: 1; }
+.cta-button-label > span:nth-child(3) { --letter: 2; }
+.cta-button-label > span:nth-child(4) { --letter: 3; }
+.cta-button-label > span:nth-child(5) { --letter: 4; }
+.cta-button-label > span:nth-child(6) { --letter: 5; }
+.cta-button-label > span:nth-child(7) { --letter: 6; }
+.cta-button-label > span:nth-child(8) { --letter: 7; }
+.cta-button-label > span:nth-child(9) { --letter: 8; }
+.cta-button-label > span:nth-child(10) { --letter: 9; }
+.cta-button-label > span:nth-child(11) { --letter: 10; }
+.cta-button-label > span:nth-child(12) { --letter: 11; }
+.cta-button-label > span:nth-child(13) { --letter: 12; }
+.cta-button-arrow {
+  flex: 0 0 auto;
+  color: #e6d9f4;
+  transition: color 300ms ease, transform 300ms cubic-bezier(.2,.7,.2,1);
+}
+
+body.page-studio .button.cta-button:focus-visible {
+  outline: 2px solid #decaf3;
+  outline-offset: 7px;
+}
+body.page-studio .button.cta-button:is(:focus-visible, :active) {
+  border-color: #cbb0e881;
+  box-shadow: inset 0 1px 1px #ffffff40, inset 0 -6px 14px #bda0df0d, 0 4px 14px #08060c38;
+}
+.cta-button:is(:focus-visible, :active)::after { opacity: 1; box-shadow: 0 2px 12px 2px #c4a9e74a; }
+.cta-button:focus-visible .cta-button-label > span {
+  animation: cta-letter-light 500ms ease both;
+  animation-delay: calc(var(--letter, 0) * 28ms);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.page-studio .button.cta-button:hover {
+    border-color: #cbb0e881;
+    box-shadow: inset 0 1px 1px #ffffff40, inset 0 -6px 14px #bda0df0d, 0 4px 14px #08060c38;
+  }
+  .cta-button:hover::after { opacity: 1; box-shadow: 0 2px 12px 2px #c4a9e74a; }
+  .cta-button:hover .cta-button-label > span {
+    animation: cta-letter-light 500ms ease both;
+    animation-delay: calc(var(--letter, 0) * 28ms);
+  }
+  .cta-button:hover .cta-button-arrow { color: #fff; transform: translate(2px, -2px); }
+}
+
+body.page-studio .button.cta-button:active {
+  border-color: #e5d3f4b3;
+  transition-duration: 100ms;
+}
+.cta-button:active::after { transition-duration: 100ms; }
+.cta-button:active .cta-button-label > span {
+  animation: none;
+  color: #fff;
+  text-shadow: 0 0 6px #dcc6f16b;
+}
+.cta-button:active .cta-button-arrow { transform: none; transition-duration: 100ms; }
+
+@keyframes cta-letter-light {
+  0%, 100% { color: #f6f2fc; text-shadow: 0 0 0 transparent; }
+  45% { color: #fff; text-shadow: 0 0 7px #d6baf3b3, 0 0 14px #c4a9e742; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.page-studio .button.cta-button,
+  .cta-button::after,
+  .cta-button .cta-button-arrow { transition: none; }
+  .cta-button .cta-button-label > span { animation: none !important; }
+  .cta-button:is(:hover, :focus-visible, :active) .cta-button-arrow { transform: none; }
+}
+
+@media (forced-colors: active) {
+  body.page-studio .button.cta-button { color: LinkText; background: Canvas; border: 1px solid ButtonText; box-shadow: none; }
+  body.page-studio .button.cta-button:focus-visible { outline-color: Highlight; }
+  .cta-button::before, .cta-button::after { display: none; }
+  .cta-button .cta-button-label > span { color: inherit !important; text-shadow: none !important; animation: none !important; }
+  .cta-button .cta-button-arrow { color: inherit; }
+}

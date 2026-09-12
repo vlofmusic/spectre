@@ -9,18 +9,27 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css?v=20260911-review-2" />
   <link rel="stylesheet" href="improvements.css?v=20260911-review-2" />
-  <link rel="stylesheet" href="home.css?v=20260911-review-2" />
+  <link rel="stylesheet" href="home.css?v=20260912-layout-3" />
+  <link rel="stylesheet" href="expression-reveal.css?v=20260912-1" />
+  <link rel="stylesheet" href="cta-button.css?v=20260912-1" />
+  <link rel="stylesheet" href="hero-reveal.css?v=20260912-1" />
+  <link rel="stylesheet" href="footer-fusion.css?v=20260912-3" />
+  <link rel="stylesheet" href="studio-process.css?v=20260912-2" />
+  <link rel="stylesheet" href="scope-folder.css?v=20260912-9" />
+  <link rel="stylesheet" href="folder-material.css?v=20260912-2" />
+  <link rel="stylesheet" href="nav-glass.css?v=20260912-6" />
+  <link rel="stylesheet" href="section-titles.css?v=20260912-3" />
 </head>
 <body class="page-studio">
   <a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header" data-header>
     <nav class="glass-nav" aria-label="Primary navigation">
-      <a class="nav-link" href="#services">What we build</a>
       <a class="nav-link" href="#approach">How it works</a>
+      <a class="nav-link" href="about.html">About</a>
 
       <a class="nav-logo" href="#top" aria-label="Spectre home"><img class="brand-symbol brand-symbol--light" src="assets/spectre-logo.svg" width="1988" height="1428" alt="" fetchpriority="high" /></a>
 
-      <a class="nav-link" href="about.html">About</a>
+      <a class="nav-link" href="apparel.html">Apparel</a>
       <a class="nav-link nav-link--contact" href="#contact">Contact</a>
     </nav>
   </header>
@@ -34,7 +43,10 @@
           <h1 id="hero-title">Your expertise.<br /><em>A working <span class="hero-keep">AI web app.</span></em></h1>
           <p class="hero-lede">Bring the knowledge, the problem or the idea. We help decide what is worth building, then shape a first version people can understand and use.</p>
           <div class="hero-actions">
-            <a class="button button--light" href="#contact">Discuss an idea <span aria-hidden="true">↗</span></a>
+            <a class="button cta-button" href="#contact" aria-label="Discuss an idea">
+              <span class="cta-button-label" aria-hidden="true"><span>D</span><span>i</span><span>s</span><span>c</span><span>u</span><span>s</span><span>s</span> <span>a</span><span>n</span> <span>i</span><span>d</span><span>e</span><span>a</span></span>
+              <svg class="cta-button-arrow" aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 18 18 6M6 6h12v12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </a>
             <a class="text-link text-link--light" href="#services">What could we build? <span aria-hidden="true">↓</span></a>
           </div>
         </div>
@@ -93,16 +105,88 @@
         </div>
         <div class="delivery-workspace">
           <figure class="delivery-visual">
-            <img data-stage-image src="assets/knowledge-form-800.webp" srcset="assets/knowledge-form-800.webp 800w, assets/knowledge-form-1400.webp 1400w" sizes="(max-width: 720px) 100vw, 45vw" width="5504" height="3072" alt="" loading="lazy" />
+            <div class="delivery-image-stage" data-stage-surface><img data-stage-image src="assets/knowledge-form-800.webp" srcset="assets/knowledge-form-800.webp 800w, assets/knowledge-form-1400.webp 1400w" sizes="(max-width: 720px) 100vw, 45vw" width="5504" height="3072" alt="" loading="lazy" /></div>
             <figcaption><span data-stage-caption>Find the structure inside the idea.</span><small>Abstract study · generated with Higgsfield</small></figcaption>
           </figure>
           <ol class="delivery-list">
-          <li><span class="delivery-number">01</span><h3><button class="delivery-select" type="button" data-stage="0" aria-pressed="true">Define the first version<span aria-hidden="true">↗</span></button></h3><p>Who it helps, which problem it solves and what to leave out.</p><div class="delivery-output"><span>You get</span>A focused product brief</div></li>
-          <li><span class="delivery-number">02</span><h3><button class="delivery-select" type="button" data-stage="1" aria-pressed="false">Organise the knowledge<span aria-hidden="true">↗</span></button></h3><p>Structure the source material, rules and boundaries the AI needs.</p><div class="delivery-output"><span>You get</span>Knowledge structure &amp; review criteria</div></li>
-          <li><span class="delivery-number">03</span><h3><button class="delivery-select" type="button" data-stage="2" aria-pressed="false">Build and test<span aria-hidden="true">↗</span></button></h3><p>Make the core workflow usable and check it against agreed scenarios.</p><div class="delivery-output"><span>You get</span>A working prototype &amp; findings</div></li>
-          <li><span class="delivery-number">04</span><h3><button class="delivery-select" type="button" data-stage="3" aria-pressed="false">Plan the next stage<span aria-hidden="true">↗</span></button></h3><p>Review what works and what needs more work before a wider release.</p><div class="delivery-output"><span>You get</span>An agreed next-stage scope</div></li>
-        </ol>
+            <li><details class="delivery-step" data-stage="0" name="delivery-steps"><summary><h3><span class="delivery-number" aria-hidden="true">01</span><span>Define the first version</span><span class="delivery-indicator" aria-hidden="true"></span></h3></summary><div class="delivery-step-body"><p>Who it helps, which problem it solves and what to leave out.</p><div class="delivery-output"><span>You get</span>A focused product brief</div></div></details></li>
+            <li><details class="delivery-step" data-stage="1" name="delivery-steps"><summary><h3><span class="delivery-number" aria-hidden="true">02</span><span>Organise the knowledge</span><span class="delivery-indicator" aria-hidden="true"></span></h3></summary><div class="delivery-step-body"><p>Structure the source material, rules and boundaries the AI needs.</p><div class="delivery-output"><span>You get</span>Knowledge structure &amp; review criteria</div></div></details></li>
+            <li><details class="delivery-step" data-stage="2" name="delivery-steps"><summary><h3><span class="delivery-number" aria-hidden="true">03</span><span>Build and test</span><span class="delivery-indicator" aria-hidden="true"></span></h3></summary><div class="delivery-step-body"><p>Make the core workflow usable and check it against agreed scenarios.</p><div class="delivery-output"><span>You get</span>A working prototype &amp; findings</div></div></details></li>
+            <li><details class="delivery-step" data-stage="3" name="delivery-steps"><summary><h3><span class="delivery-number" aria-hidden="true">04</span><span>Plan the next stage</span><span class="delivery-indicator" aria-hidden="true"></span></h3></summary><div class="delivery-step-body"><p>Review what works and what needs more work before a wider release.</p><div class="delivery-output"><span>You get</span>An agreed next-stage scope</div></div></details></li>
+          </ol>
         </div>
+        <section class="scope-folder-section has-scope-visuals" id="scope" aria-labelledby="scope-folder-title">
+          <div class="scope-folder-copy">
+            <p class="eyebrow">Scope / Example deliverables</p>
+            <h3 id="scope-folder-title">Clarity you<br /><em>can keep.</em></h3>
+            <p>A project should leave you with decisions you can understand and build on. Open this example pack to see how the brief, boundaries and working guidance can take shape. The documents and depth depend on the agreed scope.</p>
+          </div>
+          <details class="scope-folder" data-scope-folder>
+            <summary>
+              <span class="scope-folder-bubble" aria-hidden="true"><span>brief.md</span><span>scope.md</span><span>rulebook.md</span><span>review.md</span><span>handover.md</span></span>
+              <span class="scope-folder-art" aria-hidden="true">
+                <span class="scope-folder-back"><svg viewBox="0 0 20 16" focusable="false"><path d="M7.5 0H2C.9 0 0 .9 0 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2h-8C9 2 9.9 0 7.5 0Z" /></svg></span>
+                <span class="scope-folder-paper"></span>
+                <span class="scope-folder-cover"><svg viewBox="0 0 20 16" focusable="false"><defs><linearGradient id="scope-cover-tone" x2=".25" y2="1"><stop stop-color="#b7a6c6"/><stop offset="1" stop-color="#9c8aaa"/></linearGradient><pattern id="scope-cover-grain" width=".72" height=".72" patternUnits="userSpaceOnUse"><rect x=".08" y=".08" width=".14" height=".14" fill="#fff" opacity=".14"/><rect x=".44" y=".44" width=".1" height=".1" fill="#382641" opacity=".12"/></pattern></defs><path d="M2 2h16c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H2c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2Z"/><g class="scope-folder-material"><path fill="url(#scope-cover-tone)" d="M2 2h16c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H2c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2Z"/><path fill="url(#scope-cover-grain)" d="M2 2h16c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H2c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2Z"/></g></svg><span class="scope-folder-seal"></span></span>
+              </span>
+              <span class="scope-folder-label"><span><strong>Example project pack</strong><small>5 document previews</small></span><span class="scope-folder-toggle" aria-hidden="true"></span></span>
+            </summary>
+            <div class="scope-documents">
+              <p class="scope-documents-note">Illustrative excerpts for a hypothetical knowledge assistant. These are examples of documentation, not a client project or a fixed package.</p>
+              <div class="scope-pack-layout">
+                <div class="scope-visual-stage" data-scope-visual-stage>
+                  <figure class="scope-visual-card" data-scope-visual="product-brief">
+                    <div class="scope-visual-meta"><span>01 / 05</span><span>Visual placeholder</span></div>
+                    <svg viewBox="0 0 360 260" aria-hidden="true" focusable="false"><rect class="scope-visual-sheet" x="76" y="23" width="208" height="214" rx="14"/><path class="scope-visual-ink" d="M103 56h76M103 69h120"/><rect class="scope-visual-accent" x="103" y="91" width="154" height="46" rx="8"/><path d="M115 107h76M115 119h108M103 159h91M103 171h154M103 184h138M103 210h54"/><circle class="scope-visual-accent" cx="249" cy="55" r="8"/></svg>
+                    <figcaption><strong>Product brief</strong><span>Final preview to follow.</span></figcaption>
+                  </figure>
+                  <figure class="scope-visual-card" data-scope-visual="scope-boundaries" hidden>
+                    <div class="scope-visual-meta"><span>02 / 05</span><span>Visual placeholder</span></div>
+                    <svg viewBox="0 0 360 260" aria-hidden="true" focusable="false"><rect class="scope-visual-sheet" x="42" y="38" width="276" height="184" rx="16"/><rect class="scope-visual-accent" x="65" y="63" width="150" height="136" rx="12"/><rect x="85" y="85" width="110" height="36" rx="7"/><rect x="85" y="141" width="110" height="36" rx="7"/><path class="scope-visual-dashed" d="M235 72h61v117h-61z"/><path d="M100 103h59M100 159h74M251 96h29M251 108h21M251 158h29M251 170h21"/></svg>
+                    <figcaption><strong>Scope &amp; boundaries</strong><span>Final preview to follow.</span></figcaption>
+                  </figure>
+                  <figure class="scope-visual-card" data-scope-visual="working-rulebook" hidden>
+                    <div class="scope-visual-meta"><span>03 / 05</span><span>Visual placeholder</span></div>
+                    <svg viewBox="0 0 360 260" aria-hidden="true" focusable="false"><path d="M180 78v39M84 158v-41h192v41M180 117v41"/><rect class="scope-visual-accent" x="117" y="33" width="126" height="45" rx="12"/><rect class="scope-visual-sheet" x="38" y="158" width="92" height="68" rx="12"/><rect class="scope-visual-sheet" x="145" y="158" width="70" height="68" rx="12"/><rect class="scope-visual-sheet" x="230" y="158" width="92" height="68" rx="12"/><path d="M145 55h70M56 181h54M56 193h36M163 181h34M163 193h23M248 181h54M248 193h36"/><circle class="scope-visual-ink" cx="180" cy="117" r="4"/></svg>
+                    <figcaption><strong>Working rulebook</strong><span>Final preview to follow.</span></figcaption>
+                  </figure>
+                  <figure class="scope-visual-card" data-scope-visual="review-scenarios" hidden>
+                    <div class="scope-visual-meta"><span>04 / 05</span><span>Visual placeholder</span></div>
+                    <svg viewBox="0 0 360 260" aria-hidden="true" focusable="false"><rect class="scope-visual-sheet" x="45" y="37" width="127" height="86" rx="12"/><rect class="scope-visual-sheet" x="188" y="37" width="127" height="86" rx="12"/><rect class="scope-visual-sheet" x="45" y="137" width="127" height="86" rx="12"/><rect class="scope-visual-accent" x="188" y="137" width="127" height="86" rx="12"/><circle cx="69" cy="60" r="6"/><circle cx="212" cy="60" r="6"/><circle cx="69" cy="160" r="6"/><circle cx="212" cy="160" r="6"/><path d="M62 84h86M62 96h63M205 84h86M205 96h63M62 184h86M62 196h63M205 184h86M205 196h63"/></svg>
+                    <figcaption><strong>Review scenarios</strong><span>Final preview to follow.</span></figcaption>
+                  </figure>
+                  <figure class="scope-visual-card" data-scope-visual="handover-notes" hidden>
+                    <div class="scope-visual-meta"><span>05 / 05</span><span>Visual placeholder</span></div>
+                    <svg viewBox="0 0 360 260" aria-hidden="true" focusable="false"><rect x="80" y="29" width="177" height="196" rx="13"/><rect class="scope-visual-sheet" x="65" y="42" width="177" height="196" rx="13"/><path class="scope-visual-ink" d="M90 76h93"/><path d="M90 101h125M90 114h102M90 140h125M90 153h84M90 179h78M90 192h65"/><circle class="scope-visual-accent" cx="265" cy="177" r="34"/><path class="scope-visual-ink" d="M250 177h29m-10-10 10 10-10 10"/></svg>
+                    <figcaption><strong>Handover notes</strong><span>Final preview to follow.</span></figcaption>
+                  </figure>
+                </div>
+                <div class="scope-document-list">
+              <details class="scope-document" data-scope-preview="product-brief">
+                <summary><span class="scope-document-number" aria-hidden="true">01</span><span><span class="scope-document-name">Product brief</span><span class="scope-document-type">The problem, the people, the first version.</span></span></summary>
+                <div class="scope-document-preview"><p><strong>Example purpose:</strong> Make approved information easier to find. A person asks one question, receives a concise answer and can inspect the relevant source.</p><p><strong>First version:</strong> Focus on one audience and one source collection before adding more workflows.</p></div>
+              </details>
+              <details class="scope-document" data-scope-preview="scope-boundaries">
+                <summary><span class="scope-document-number" aria-hidden="true">02</span><span><span class="scope-document-name">Scope &amp; boundaries</span><span class="scope-document-type">What belongs now. What waits.</span></span></summary>
+                <div class="scope-document-preview"><p><strong>Example boundary:</strong> One defined question-and-source workflow, using the agreed content.</p><p><strong>Deferred for review:</strong> Additional integrations, new content types and a wider rollout. Your scope records the choices made together.</p></div>
+              </details>
+              <details class="scope-document" data-scope-preview="working-rulebook">
+                <summary><span class="scope-document-number" aria-hidden="true">03</span><span><span class="scope-document-name">Working rulebook</span><span class="scope-document-type">Guidance for responses and review.</span></span></summary>
+                <div class="scope-document-preview"><p><strong>Example instruction:</strong> Use the approved sources and show the reference. If information is missing or conflicting, explain the limit and direct the question to a person for review.</p><p>These instructions define intended behaviour. They still need to be tested and refined.</p></div>
+              </details>
+              <details class="scope-document" data-scope-preview="review-scenarios">
+                <summary><span class="scope-document-number" aria-hidden="true">04</span><span><span class="scope-document-name">Review scenarios</span><span class="scope-document-type">A concrete way to examine the prototype.</span></span></summary>
+                <div class="scope-document-preview"><p><strong>Example checks:</strong> A supported question, a question without an answer in the sources, conflicting guidance and incomplete input.</p><p>Record the intended response, what happened and what needs attention before the next stage.</p></div>
+              </details>
+              <details class="scope-document" data-scope-preview="handover-notes">
+                <summary><span class="scope-document-number" aria-hidden="true">05</span><span><span class="scope-document-name">Handover notes</span><span class="scope-document-type">The decisions and the next steps.</span></span></summary>
+                <div class="scope-document-preview"><p><strong>Example contents:</strong> Key decisions, configuration notes, known limitations and the next actions.</p><p>Identify who owns the source material and how future changes should be reviewed, so the thinking stays accessible after the project.</p></div>
+              </details>
+                </div>
+              </div>
+            </div>
+          </details>
+        </section>
       </div>
     </section>
 
@@ -131,7 +215,7 @@
         </div>
         <div class="studio-questions">
           <h3>Before we begin</h3>
-          <details open><summary>Do I need a technical brief?</summary><p>No. Start with the problem, who it affects and what you want to make easier. Defining the first version is part of the work.</p></details>
+          <details><summary>Do I need a technical brief?</summary><p>No. Start with the problem, who it affects and what you want to make easier. Defining the first version is part of the work.</p></details>
           <details><summary>Is a prototype ready to launch?</summary><p>A prototype tests the core idea. A public launch may need further engineering, security review and support. We agree those needs and responsibilities separately; independent security and legal advice require external specialists.</p></details>
           <details><summary>Can I see client projects?</summary><p>Current AI client projects are private. Public case studies depend on the clients’ permission.</p></details>
         </div>
@@ -145,35 +229,48 @@
       </div>
     </section>
   </main>
-<footer class="end-footer" id="footer">
-    <div class="shell end-footer-grid">
-      <a class="end-brand" href="#top" aria-label="Spectre — visit studio">
-        <span class="end-brand-name">SPECTRE</span>
-        <span class="end-brand-caption">AI web product studio</span>
+<footer class="signature-footer" id="footer">
+    <div class="shell signature-intro">
+      <a class="signature-brand" href="index.html#top" aria-label="Spectre — visit studio">
+        <span class="signature-wordmark">SPECTRE</span>
+        <span class="signature-caption">AI web product studio</span>
       </a>
-      <nav class="end-links" aria-label="Footer navigation">
-        <a href="#services">What we build</a>
-        <a href="#approach">How it works</a>
-        <a href="about.html">About the founder</a>
-        <a href="work.html">Selected visual work</a>
-        <a href="apparel.html">Apparel</a>
-      </nav>
-      <a class="end-contact" href="mailto:hello@spectre-studio.co">
-        <span>Have something in mind?</span>
-        <strong>Say hello <span aria-hidden="true">↗</span></strong>
-        <span>hello@spectre-studio.co</span>
-      </a>
-      <div class="end-seal" aria-hidden="true"><img src="assets/spectre-fusion.svg" width="2974" height="2498" alt="" loading="lazy" /></div>
+      <div class="signature-conversation">
+        <p>Have something in mind?</p>
+        <a class="signature-cta" href="mailto:hello@spectre-studio.co"><span>Let’s <em>talk.</em></span><span class="signature-arrow" aria-hidden="true">↗</span></a>
+        <a class="signature-email" href="mailto:hello@spectre-studio.co">hello@spectre-studio.co</a>
+      </div>
     </div>
-    <div class="shell end-bottom">
-      <p>© <span data-year>2026</span> Spectre</p>
-      <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
+    <div class="signature-stage" aria-hidden="true">
+      <div class="signature-art">
+        <img class="signature-fallback" src="assets/spectre-fusion.svg" width="2974" height="2498" alt="" loading="lazy" />
+        <div class="signature-metal"></div>
+      </div>
+    </div>
+    <div class="shell signature-bottom">
+      <div class="signature-bottom-main">
+        <nav class="signature-links" aria-label="Footer navigation">
+          <a href="index.html#services">What we build</a>
+          <a href="index.html#approach">How it works</a>
+          <a href="about.html">About</a>
+          <a href="work.html">Visual work</a>
+          <a href="apparel.html">Apparel</a>
+        </nav>
+        <a class="signature-top" href="#top">Back to top <span aria-hidden="true">↑</span></a>
+      </div>
+      <div class="signature-colophon"><p>© <span data-year>2026</span> Spectre</p><span>A wider perspective.</span></div>
     </div>
   </footer>
-  <script src="site.js?v=20260911-review-2" defer></script>
+  <script src="site.js?v=20260912-nav-5" defer></script>
   <script src="hero-pixels.js?v=20260911-review-2" defer></script>
-  <script src="studio-process.js?v=20260911-review-2" defer></script>
+  <script src="hero-reveal.js?v=20260912-1" defer></script>
   <script src="studio-story.js?v=20260911-review-2" defer></script>
+  <script src="expression-reveal.js?v=20260912-1" defer></script>
   <script src="liquid-motion.js?v=20260911-review-2" defer></script>
+  <script src="footer-fusion.js?v=20260912-3" defer></script>
+  <script src="studio-process.js?v=20260912-4" defer></script>
+  <script src="scope-folder.js?v=20260912-9" defer></script>
+  <script src="folder-material.js?v=20260912-1" defer></script>
+  <script src="nav-glass.js?v=20260912-4" defer></script>
 </body>
 </html>

@@ -1,0 +1,15 @@
+/* A bounded image transition in the existing About teaser; no sticky scroll track. */
+.ab-dissolve-study { margin:0; min-width:0; }
+.ab-dissolve-stage { position:relative; aspect-ratio:4/5; }
+.ab-dissolve-stage > img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
+.ab-dissolve-stage > canvas { position:absolute; inset:0; display:none; width:100%; height:100%; pointer-events:none; }
+.ab-dissolve-study.is-dissolve-ready .ab-dissolve-stage > canvas { display:block; }
+.ab-dissolve-study .ab-work-image:hover .ab-dissolve-stage > img { transform:none; }
+.ab-dissolve-study > figcaption { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:18px 3px 0; font-size:.875rem; line-height:1.5; color:#493b53; }
+.ab-dissolve-study figcaption small { display:block; margin-top:4px; font-size:.8125rem; color:#74647e; }
+.ab-dissolve-detail { display:block; width:64px; flex-shrink:0; border-radius:12px; overflow:hidden; }
+.ab-dissolve-detail img { display:block; width:100%; height:auto; }
+.ab-dissolve-detail:focus-visible { outline:3px solid #806593; outline-offset:5px; }
+@media(max-width:900px),(pointer:coarse),(prefers-reduced-motion:reduce),(forced-colors:active) {
+  .ab-dissolve-study.is-dissolve-ready .ab-dissolve-stage > canvas { display:none; }
+}

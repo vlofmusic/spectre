@@ -1,5 +1,6 @@
 import { SIZES,hashToken,readBag,setQuantity } from './reservations.js';
 import { checkoutEnabled,parseOrder,submitOrder } from './orders.js';
+import { confirmationCapabilities,telegramReceiptWebhook } from './customer-confirmations.js';
 import { initializeInventory } from './inventory-setup.js';
 const json=(value,status=200)=>Response.json(value,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 export default {
@@ -10,9 +11,11 @@ export default {
    return env.ASSETS.fetch(request);
   }
   if(url.pathname==='/api/admin/initialize-inventory')return initializeInventory(request,env);
+  // Telegram authenticates with its secret header, not a browser Origin or cart cookie.
+  if(url.pathname==='/api/telegram/webhook')return telegramReceiptWebhook(request,env,Math.floor(Date.now()/1000));
   if(!['/api/bag','/api/checkout','/api/orders'].includes(url.pathname))return json({error:'Not found'},404);
   if(!(url.pathname==='/api/checkout'?['GET']:url.pathname==='/api/orders'?['POST']:['GET','POST']).includes(request.method))return json({error:'Method not allowed'},405);
-  if(url.pathname==='/api/checkout')return json({enabled:checkoutEnabled(env)});
+  if(url.pathname==='/api/checkout')return json({enabled:checkoutEnabled(env),confirmations:confirmationCapabilities(env)});
   const now=Math.floor(Date.now()/1000);
   const cookie=(request.headers.get('Cookie')||'').split(';').map(x=>x.trim()).find(x=>x.startsWith('spectre_hold='))?.slice(13);
   const token=cookie&&/^[a-f0-9]{64}$/.test(cookie)?cookie:null;
@@ -27,7 +30,10 @@ export default {
    let input;try{input=JSON.parse(raw);}catch{return json({error:'Invalid request'},400);}
    if(url.pathname==='/api/orders'){
     const order=parseOrder(input);if(!order)return json({error:'Please check your contact details.'},400);
-    const result=await submitOrder(env,token?await hashToken(token):'',order,now);
+    // Only Cloudflare's runtime metadata makes the injected client-IP header trustworthy.
+    const candidate=request.cf?request.headers.get('CF-Connecting-IP'):null;
+    const trustedIp=candidate&&/^[a-f0-9:.]{3,45}$/i.test(candidate)?candidate:null;
+    const result=await submitOrder(env,token?await hashToken(token):'',order,now,fetch,{trustedIp});
     return json(result.body,result.status);
    }
    if(!input||!SIZES.includes(input.size)||!Number.isInteger(input.quantity)||input.quantity<0||input.quantity>8)return json({error:'Choose a valid size and quantity.'},400);

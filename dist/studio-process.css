@@ -1,0 +1,37 @@
+/* Native, initially closed steps; a selected step owns its illustration. */
+.delivery-workspace .delivery-list li,
+.delivery-workspace .delivery-list li:first-child { display:block; padding:0; }
+.delivery-step > summary { list-style:none; padding:22px 0; cursor:pointer; outline-offset:5px; border-radius:8px; }
+.delivery-step > summary::-webkit-details-marker { display:none; }
+.delivery-step > summary h3 { display:grid; grid-template-columns:28px minmax(0,1fr) 20px; align-items:center; gap:16px; }
+.delivery-step .delivery-number { padding:0; font-weight:400; letter-spacing:0; }
+.delivery-step > summary:focus-visible { outline:2px solid #806593; }
+.delivery-step > summary:hover h3,.delivery-step[open] > summary h3 { color:#665276; }
+.delivery-indicator { position:relative; width:16px; height:16px; color:#756781; }
+.delivery-indicator::before,.delivery-indicator::after { content:""; position:absolute; left:2px; top:7px; width:12px; height:1px; background:currentColor; }
+.delivery-indicator::after { transform:rotate(90deg); transition:transform 220ms ease; }
+.delivery-step[open] .delivery-indicator::after { transform:rotate(0); }
+.delivery-step-body { margin-left:44px; padding:0 0 24px; }
+.delivery-workspace .delivery-step-body .delivery-output { padding-top:0; margin-top:18px; }
+.delivery-image-stage { position:relative; overflow:hidden; isolation:isolate; border-radius:var(--spectre-radius-lg,28px); aspect-ratio:1.25; background:#dcd5e3; }
+.delivery-image-stage > img { width:100%; height:100%; aspect-ratio:auto; object-fit:cover; }
+body.page-studio .delivery-image-stage > img { border-radius:0; }
+.delivery-pixel-overlay { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; animation:delivery-pixel-release 1.15s steps(1,end) forwards; }
+@keyframes delivery-pixel-release { from { opacity:1; } to { opacity:0; } }
+@media(max-width:1000px) { .delivery-image-stage { aspect-ratio:.85; } }
+@media(max-width:720px) {
+  .delivery-image-stage { aspect-ratio:1.6; }
+  .delivery-step > summary { padding:20px 0; }
+  .delivery-step > summary h3 { grid-template-columns:24px minmax(0,1fr) 18px; gap:12px; font-size:1.2rem; }
+  .delivery-step-body { margin-left:36px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .delivery-indicator::after { transition:none; }
+  .delivery-pixel-overlay { display:none; animation:none; }
+}
+@media(forced-colors:active) {
+  .delivery-step > summary { color:ButtonText; }
+  .delivery-step > summary:hover h3,.delivery-step[open] > summary h3 { color:LinkText; }
+  .delivery-step > summary:focus-visible { outline-color:Highlight; }
+  .delivery-pixel-overlay { display:none; animation:none; }
+}

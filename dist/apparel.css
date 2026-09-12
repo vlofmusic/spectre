@@ -35,7 +35,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible { outline:2px solid #
 .ap-photo { width:100%; display:block; position:relative; border:0; padding:0; background:#b7b9be; color:#18191b; touch-action:pan-y; }
 .ap-main-image { width:100%; height:min(720px,calc(100svh - 130px)); min-height:440px; object-fit:contain; }
 .ap-zoom-hint { position:absolute; bottom:16px; right:16px; display:flex; gap:22px; align-items:center; padding:10px 14px; font-size:.8125rem; background:#eeeef0; border-radius:2px; }
-.ap-zoom-hint > span { font-size:1.25rem; }
 .ap-gallery-controls { display:flex; align-items:center; justify-content:space-between; gap:16px; padding-block:8px; }
 .ap-gallery-controls button { border:0; color:var(--ap-text); background:transparent; width:44px; height:44px; font-size:1.2rem; }
 .ap-gallery-controls p { font-size:.8125rem; color:var(--ap-muted); font-variant-numeric:tabular-nums; }
@@ -206,6 +205,8 @@ a:focus-visible,button:focus-visible,summary:focus-visible { outline:2px solid #
 .apparel-page { --ap-bg:#f5f4f6; --ap-text:#201c25; --ap-muted:#645d6b; --ap-line:#cbc5d2; background:var(--ap-bg); color:var(--ap-text); }
 .apparel-page .ap-shell,.apparel-page .shell { width:min(1280px,calc(100% - 80px)); }
 .apparel-page { text-rendering:optimizeLegibility; }
+/* The bag is a separate sibling, aligned to the actual navigation height. */
+@media(min-width:891px) { .apparel-page .nav-bag { top:50%; transform:translateY(-50%); } }
 html { scroll-padding-top:110px; }
 .ap-skip { z-index:2000; }
 .ap-hero { position:relative; isolation:isolate; overflow:hidden; background:#17141c; color:#f5f2f8; --ap-muted:#bcb2c8; --ap-line:#ffffff29; padding:148px 0 28px; }
@@ -223,7 +224,6 @@ html { scroll-padding-top:110px; }
 .ap-photo { background:#b7b9be; overflow:hidden; }
 .ap-main-image { min-height:0; height:clamp(530px,58vw,680px); }
 .ap-zoom-hint { width:88px; height:88px; border-radius:50%; justify-content:center; flex-direction:column; gap:0; line-height:1.15; text-align:center; background:#ece8f0; color:#231c2c; font-size:.8125rem; padding:12px; pointer-events:none; transition:background 180ms ease; }
-.ap-zoom-hint > span { position:absolute; right:15px; top:12px; font-size:1rem; }
 .ap-purchase { grid-column:1; grid-row:2; padding-top:22px; padding-bottom:4px; }
 .ap-product-description { max-width:37ch; font-size:1.0625rem; color:#cec7d7; }
 .ap-size-heading { margin-top:28px; font-size:.9375rem; }
@@ -380,10 +380,11 @@ html { scroll-padding-top:110px; }
 }
 .ap-hero .ap-button--light::after { content:''; position:absolute; top:0; left:12%; right:12%; height:1px; background:linear-gradient(90deg,transparent,#ffffffe0,transparent); opacity:.5; pointer-events:none; }
 .ap-hero .ap-button--light > span { position:relative; z-index:1; }
-.ap-hero .ap-button--light > span:last-child { display:grid; place-items:center; width:40px; height:40px; flex-shrink:0; border-radius:50%; background:#f5edff17; border:1px solid #ffffff24; font-size:1.2rem; transition:transform 220ms ease,background 220ms ease; }
+.ap-hero .ap-button--light > span:last-child { display:grid; place-items:center; width:40px; height:40px; flex-shrink:0; border-radius:50%; background:#f5edff17; border:1px solid #ffffff24; line-height:1; transition:background 220ms ease; }
+.ap-hero [data-add-to-bag] > span:last-child svg { display:block; width:18px; height:18px; pointer-events:none; }
 .ap-hero .ap-button--light:hover,.ap-hero .ap-button--light:focus-visible { transform:translateY(-1px); border-color:#e8d6ff94; box-shadow:inset 0 1px 0 #ffffff50,0 12px 30px #09060d30; }
 .ap-hero .ap-button--light:hover::before,.ap-hero .ap-button--light:focus-visible::before { opacity:1; }
-.ap-hero .ap-button--light:hover > span:last-child { transform:translate(2px,-2px); background:#f5edff2b; }
+.ap-hero .ap-button--light:hover > span:last-child { background:#f5edff2b; }
 .ap-hero .ap-button--light:active { transform:scale(.985); box-shadow:inset 0 1px 0 #ffffff35,0 4px 12px #09060d20; }
 @media(prefers-reduced-motion:reduce) {
  .ap-hero .ap-button--light:hover,.ap-hero .ap-button--light:active,.ap-hero .ap-button--light:focus-visible,.ap-hero .ap-button--light:hover > span:last-child { transform:none; }

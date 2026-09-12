@@ -1,0 +1,83 @@
+/* One continuous field; the owner's original Fusion silhouette is the signature. */
+.signature-footer {
+  --signature-ink: #222127;
+  position: relative; isolation: isolate; overflow: hidden;
+  color: var(--signature-ink); background: #e9e7ec;
+  border-radius: 32px 32px 0 0; padding-top: clamp(36px, 5vw, 72px);
+}
+.signature-footer a { color: inherit; text-decoration: none; }
+.signature-intro { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; }
+.signature-brand { display: inline-flex; flex-direction: column; gap: 10px; padding-block: 4px; }
+.signature-wordmark { font-family: "Helvetica Neue", Helvetica, "Arial Black", Arial, sans-serif; font-size: clamp(36px, 4.4vw, 68px); line-height: .95; font-weight: 900; letter-spacing: -.065em; -webkit-text-stroke: .015em currentColor; }
+.signature-caption { color: #5b5862; font-size: 12px; line-height: 1.5; }
+.signature-conversation { width: min(36%, 350px); }
+.signature-conversation p { margin: 0 0 12px; color: #5b5862; font-size: 12px; line-height: 1.5; }
+.signature-cta { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 56px; }
+.signature-cta > span:first-child { font-size: clamp(36px, 4.5vw, 62px); line-height: 1.04; letter-spacing: -.06em; font-weight: 500; }
+.signature-cta em { font-weight: inherit; }
+.signature-arrow { display: grid; place-items: center; width: 50px; height: 50px; border-radius: 50%; border: 1px solid #a7a3ad; font-size: 24px; line-height: 1; flex: 0 0 auto; transition: background 300ms ease, color 300ms ease, transform 450ms cubic-bezier(.22,1,.36,1); }
+.signature-cta:hover .signature-arrow, .signature-cta:focus-visible .signature-arrow { color: #f5f4f6; background: #29272e; transform: rotate(45deg); }
+.signature-email { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; text-underline-offset: 5px; }
+.signature-footer .signature-email:hover { text-decoration: underline; }
+.signature-stage { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; contain: layout paint; }
+.signature-art { position: absolute; width: 130%; aspect-ratio: 2974.19 / 2498.02; left: -15%; top: -8%; pointer-events: none; }
+.signature-fallback { display: block; width: 100%; height: 100%; opacity: .085; }
+.signature-metal { display: none; }
+.footer-fusion-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; pointer-events: none; }
+@supports ((mask-image: url("assets/spectre-fusion.svg")) or (-webkit-mask-image: url("assets/spectre-fusion.svg"))) {
+  .signature-fallback { visibility: hidden; }
+  .signature-metal { display: block; position: absolute; inset: 0; opacity: .095;
+    -webkit-mask: url("assets/spectre-fusion.svg") center / 100% 100% no-repeat;
+    mask: url("assets/spectre-fusion.svg") center / 100% 100% no-repeat;
+    background: linear-gradient(118deg, #26242d 14%, #635e6e 42%, #24222a 64%, #514957 94%);
+  }
+}
+.signature-intro { min-height: 350px; }
+.signature-bottom { position: relative; padding-top: 24px; padding-bottom: 18px; }
+.signature-bottom-main { display: flex; justify-content: space-between; align-items: center; gap: 24px; border-bottom: 1px solid #cbc7d0; padding-bottom: 16px; }
+.signature-links { display: flex; flex-wrap: wrap; gap: 4px clamp(18px, 2.8vw, 42px); }
+.signature-links a, .signature-top { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; line-height: 1.5; }
+.signature-links a { position: relative; }
+.signature-links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 6px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 350ms cubic-bezier(.22,1,.36,1); }
+.signature-links a:hover::after, .signature-links a:focus-visible::after, .signature-links a[aria-current]::after { transform: scaleX(1); }
+.signature-top { gap: 18px; flex: 0 0 auto; }
+.signature-top span { transition: transform 300ms ease; }
+.signature-top:hover span { transform: translateY(-3px); }
+.signature-colophon { display: flex; justify-content: space-between; gap: 16px; padding-top: 18px; color: #5b5862; font-size: 11px; line-height: 1.5; }
+.signature-colophon p { margin: 0; }
+.signature-footer a:focus-visible { outline: 2px solid #5c4b75; outline-offset: 6px; border-radius: 4px; }
+@media (max-width: 720px) {
+  .signature-footer { border-radius: 24px 24px 0 0; }
+  .signature-intro { gap: 24px; }
+  .signature-conversation { width: 48%; }
+  .signature-arrow { width: 40px; height: 40px; font-size: 22px; }
+  .signature-cta { gap: 12px; }
+  .signature-intro { min-height: 300px; }
+  .signature-art { width: 160%; left: -30%; top: 8%; }
+  .signature-bottom-main { align-items: flex-start; gap: 16px; }
+  .signature-links { gap: 0 20px; max-width: 70%; }
+}
+@media (max-width: 460px) {
+  .signature-intro { flex-direction: column; gap: 30px; }
+  .signature-conversation { width: 100%; }
+  .signature-cta { max-width: 300px; }
+  .signature-cta > span:first-child { font-size: 46px; }
+  .signature-email { font-size: 14px; }
+  .signature-intro { min-height: 350px; justify-content: flex-start; }
+  .signature-art { width: 230%; left: -65%; top: 12%; }
+  .signature-links { max-width: 62%; gap: 0 18px; }
+  .signature-colophon { font-size: 10px; }
+}
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .footer-fusion-canvas { display: none; }
+  .signature-footer *, .signature-footer *::after { animation: none !important; transition: none !important; }
+  .signature-footer .signature-arrow, .signature-top:hover span { transform: none; }
+}
+@media (forced-colors: active) {
+  .signature-footer { color: CanvasText; background: Canvas; border-top: 1px solid CanvasText; }
+  .signature-caption, .signature-conversation p, .signature-colophon { color: CanvasText; }
+  .signature-stage { display: none; }
+  .signature-footer a { color: LinkText; }
+  .signature-footer a:focus-visible { outline-color: Highlight; }
+  .signature-arrow, .signature-bottom-main { border-color: CanvasText; }
+}

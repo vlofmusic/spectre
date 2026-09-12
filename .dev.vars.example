@@ -1,3 +1,9 @@
 # Local-only Telegram notification settings. Never commit real values.
 TELEGRAM_BOT_TOKEN=""
 TELEGRAM_CHAT_ID=""
+
+# Customer confirmation channels. Keep disabled until configured in the server runtime.
+RESEND_API_KEY=""
+RESEND_FROM=""
+TELEGRAM_BOT_USERNAME="spectreorders_bot"
+TELEGRAM_WEBHOOK_SECRET=""

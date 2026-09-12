@@ -1,0 +1,26 @@
+/* The h1 remains the source of layout and accessibility throughout this one-shot ripple. */
+.page-studio .hero-copy { position:relative; }
+.page-studio #hero-title.hero-ripple-active {
+  -webkit-mask-image:var(--hero-ripple-mask);
+  mask-image:var(--hero-ripple-mask);
+  animation:hero-ripple-restore 1150ms step-end forwards;
+}
+.hero-ripple-canvas {
+  position:absolute;
+  display:block;
+  pointer-events:none;
+  user-select:none;
+  animation:hero-ripple-release 1150ms linear forwards;
+}
+@keyframes hero-ripple-restore {
+  0%,99% { -webkit-mask-image:var(--hero-ripple-mask); mask-image:var(--hero-ripple-mask); }
+  100% { -webkit-mask-image:none; mask-image:none; }
+}
+@keyframes hero-ripple-release {
+  0%,94% { opacity:1; }
+  100% { opacity:0; }
+}
+@media (prefers-reduced-motion:reduce),(forced-colors:active) {
+  .page-studio #hero-title.hero-ripple-active { -webkit-mask-image:none; mask-image:none; animation:none; }
+  .hero-ripple-canvas { display:none; animation:none; }
+}
