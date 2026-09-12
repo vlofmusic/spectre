@@ -52,8 +52,8 @@
 .has-scope-visuals .scope-folder-copy { grid-column:1; grid-row:1; position:relative; z-index:1; }
 .has-scope-visuals .scope-folder { grid-column:1/-1; grid-row:1; }
 .has-scope-visuals .scope-folder > summary { width:calc((100% - 48px) * 1.05 / 2.05); min-height:360px; margin-left:auto; }
-.has-scope-visuals .scope-documents { margin-top:22px; padding:26px; }
-.scope-pack-layout { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:34px; align-items:start; }
+.has-scope-visuals .scope-documents { --scope-pack-gutter:20px; margin-top:22px; padding:var(--scope-pack-gutter); }
+.scope-pack-layout { display:grid; grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr); gap:var(--scope-pack-gutter,20px); align-items:start; }
 .scope-visual-stage { min-width:0; position:sticky; top:116px; border:1px solid #d8cddd; border-radius:22px; overflow:hidden; background:radial-gradient(ellipse at 50% 28%,#f8f6fa,#e9e3ee); }
 .scope-visual-card { margin:0; padding:20px; }
 .scope-visual-card[hidden] { display:none; }
@@ -68,11 +68,11 @@
 .scope-visual-card figcaption { display:flex; flex-direction:column; gap:6px; padding:5px 0 2px; }
 .scope-visual-card figcaption strong { color:#3c3047; font-size:1.25rem; font-weight:500; line-height:1.25; letter-spacing:-.025em; }
 .scope-visual-card figcaption > span { color:#786b82; font-size:.75rem; line-height:1.5; }
-.scope-document-list { min-width:0; }
-.scope-document-list .scope-document > summary { padding-inline:10px; border-radius:12px; transition:background-color 220ms ease; }
+.scope-document-list { --scope-row-inset:20px; min-width:0; }
+.scope-document-list .scope-document > summary { padding-inline:var(--scope-row-inset); border-radius:12px; transition:background-color 220ms ease; }
 .scope-document-list .scope-document.is-preview-current > summary { background:#ece5f1; }
 .scope-document-list .scope-document.is-preview-current .scope-document-number { color:#685276; }
-.scope-document-list .scope-document-preview { padding-left:48px; padding-right:10px; }
+.scope-document-list .scope-document-preview { padding-left:calc(var(--scope-row-inset) + 38px); padding-right:var(--scope-row-inset); }
 @media(hover:hover) and (pointer:fine) {
   .scope-folder > summary:hover .scope-folder-art { transform:translateY(32px); }
   .scope-folder > summary:hover .scope-folder-cover { transform:rotateX(-32deg); }
@@ -86,7 +86,7 @@
   .has-scope-visuals .scope-folder-copy > p:not(.eyebrow) { max-width:60ch; }
   .has-scope-visuals .scope-folder { grid-row:auto; }
   .has-scope-visuals .scope-folder > summary { width:100%; min-height:330px; }
-  .scope-pack-layout { grid-template-columns:minmax(0,.9fr) minmax(0,1fr); gap:22px; }
+  .scope-pack-layout { grid-template-columns:minmax(0,.9fr) minmax(0,1fr); }
   .scope-visual-card { padding:16px; }
 }
 @media(max-width:720px) {
@@ -97,13 +97,12 @@
   .scope-documents { padding:20px; }
   .has-scope-visuals .scope-folder-copy,.has-scope-visuals .scope-folder { grid-column:1; grid-row:auto; }
   .has-scope-visuals .scope-folder > summary { width:100%; min-height:320px; }
-  .has-scope-visuals .scope-documents { padding:18px; }
-  .scope-pack-layout { grid-template-columns:minmax(0,1fr); gap:22px; }
+  .has-scope-visuals .scope-documents { --scope-pack-gutter:18px; }
+  .scope-pack-layout { grid-template-columns:minmax(0,1fr); }
   .scope-visual-stage { position:relative; top:auto; }
   .scope-visual-card { padding:16px; }
   .scope-visual-card svg { max-height:210px; }
-  .scope-document-list .scope-document > summary { padding-inline:6px; }
-  .scope-document-list .scope-document-preview { padding-left:44px; padding-right:6px; }
+  .scope-document-list { --scope-row-inset:16px; }
 }
 @media(prefers-reduced-motion:reduce) {
   .scope-folder-art,.scope-folder-cover,.scope-folder-paper,.scope-folder-bubble,.scope-folder-toggle::after { transition:none; }
@@ -128,6 +127,7 @@
 .studio-questions details.is-question-expanding,
 .starting-questions details.is-question-expanding,
 .delivery-step.is-question-expanding,
+.scope-document.is-question-expanding,
 .scope-folder.is-question-expanding { overflow:hidden; overflow:clip; }
 
 /* Optional, finite ASCII decoration; the native text remains the source of layout. */

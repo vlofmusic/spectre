@@ -4,10 +4,10 @@
   const questions=[...document.querySelectorAll('.studio-questions details')];
   const processSteps=[...document.querySelectorAll('details.delivery-step')];
   const perspectives=[...document.querySelectorAll('.starting-questions details')];
-  const smoothEntries=[...questions,...processSteps,...perspectives,...(folder?[folder]:[])];
-  if(!folder&&!smoothEntries.length)return;
   const documents=folder?.querySelector('.scope-documents');
   const entries=[...(folder?.querySelectorAll('.scope-document')||[])];
+  const smoothEntries=[...questions,...processSteps,...perspectives,...entries,...(folder?[folder]:[])];
+  if(!smoothEntries.length)return;
   const visualStage=folder?.querySelector('[data-scope-visual-stage]');
   const visualCards=[...(visualStage?.querySelectorAll('[data-scope-visual]')||[])];
   const scopeOwners=new Set([folder,...entries].filter(Boolean));
@@ -77,6 +77,7 @@
   const stopScope=()=>{
     stopVisualTransition();
     scopeOwners.forEach(stopJob);
+    entries.forEach(stopAccordion);
     documents?.getAnimations?.().forEach(animation=>animation.cancel());
     cancelReveal(entries.map(entry=>entry.querySelector('.scope-document-preview')));
   };
@@ -108,14 +109,15 @@
       entry.classList.add('is-question-expanding');
       const to=entry.getBoundingClientRect().height;
       if(Math.abs(from-to)<1){entry.classList.remove('is-question-expanding');return;}
+      const duration=entries.includes(entry)?420:340;
       const animation=entry.animate([{height:`${from}px`},{height:`${to}px`}],{
-        duration:340,easing:'cubic-bezier(.2,.7,.2,1)'
+        duration,easing:'cubic-bezier(.2,.7,.2,1)'
       });
       const state={animation,open:opening,timeout:0,observer:null};
       accordions.set(entry,state);
       const finish=()=>{if(accordions.get(entry)===state)stopAccordion(entry);};
       animation.finished.then(finish,finish);
-      state.timeout=setTimeout(finish,460);
+      state.timeout=setTimeout(finish,duration+120);
       if(window.IntersectionObserver){
         state.observer=new IntersectionObserver(records=>{
           if(!records[0].isIntersecting)finish();
@@ -408,7 +410,7 @@
         job.observer=new IntersectionObserver(records=>{
           if(!records[0].isIntersecting)stopJob(entry);
         });
-        job.observer.observe(preview);
+        job.observer.observe(entry);
       }
     }catch{stopJob(entry);}
   };

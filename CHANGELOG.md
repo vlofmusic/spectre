@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-09-12 — quieter document surfaces
+- Smoothed document opening with a 420ms interrupted-height transition; original text resolves inside the expanding row.
+- Widened the document column, balanced outer spacing and increased item padding to 20px per side (16px on mobile).
+- Replaced Scope symbol highlights with a neutral grey whole-document surface and subtle border.
+- Removed background pixel waves and continuous gradient motion from document rows.
+- Kept native disclosures, text reveal, left previews and existing editorial transitions.
+
 ## 2026-09-12 — clearer navigation and coordinated interactions
 - Larger document headings with whole-card gradient highlights and finite pixel/symbol feedback.
 - Refined shared footer with oversized Fusion background, grouped navigation and direct contact.
