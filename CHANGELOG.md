@@ -1,3 +1,7 @@
+## 2026-09-13 — folder interaction
+
+- Close the folder artwork when hover ends, independently of the open document list. Preserve keyboard and touch interaction.
+
 ## 2026-09-13
 
 - Clarify planning, AI web product development, visual identity, CGI, marketing planning and launch across the studio pages.

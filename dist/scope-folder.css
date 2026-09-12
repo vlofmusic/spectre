@@ -29,10 +29,10 @@
 .scope-folder-toggle::before,.scope-folder-toggle::after { content:""; position:absolute; left:50%; top:50%; width:13px; height:1.5px; border-radius:1px; background:currentColor; transform:translate(-50%,-50%); }
 .scope-folder-toggle::after { transform:translate(-50%,-50%) rotate(90deg); transition:transform 220ms ease,opacity 220ms ease; }
 .scope-folder[open] .scope-folder-toggle::after { transform:translate(-50%,-50%) rotate(90deg) scaleX(0); opacity:0; }
-.scope-folder[open] .scope-folder-art,.scope-folder > summary:focus-visible .scope-folder-art { transform:translateY(32px); }
-.scope-folder[open] .scope-folder-cover,.scope-folder > summary:focus-visible .scope-folder-cover { transform:rotateX(-32deg); }
-.scope-folder[open] .scope-folder-paper,.scope-folder > summary:focus-visible .scope-folder-paper { transform:translateY(-10px) rotate(-5deg); }
-.scope-folder[open] .scope-folder-bubble,.scope-folder > summary:focus-visible .scope-folder-bubble { opacity:1; transform:translate(-50%,0) scale(1); }
+.scope-folder > summary:focus-visible .scope-folder-art { transform:translateY(32px); }
+.scope-folder > summary:focus-visible .scope-folder-cover { transform:rotateX(-32deg); }
+.scope-folder > summary:focus-visible .scope-folder-paper { transform:translateY(-10px) rotate(-5deg); }
+.scope-folder > summary:focus-visible .scope-folder-bubble { opacity:1; transform:translate(-50%,0) scale(1); }
 .scope-documents { margin-top:14px; padding:22px; border:1px solid #c2b5cc; border-radius:26px; background:#f7f4f9; }
 .scope-documents-note { margin:0 0 18px; color:#776780; font-size:.8125rem; line-height:1.55; }
 .scope-document { border-top:1px solid #d8cddd; }
@@ -78,6 +78,12 @@
   .scope-folder > summary:hover .scope-folder-paper { transform:translateY(-10px) rotate(-5deg); }
   .scope-folder > summary:hover .scope-folder-bubble { opacity:1; transform:translate(-50%,0) scale(1); }
   .scope-document > summary:hover .scope-document-name { color:#72538b; }
+}
+@media(hover:none), (pointer:coarse) {
+  .scope-folder[open] .scope-folder-art { transform:translateY(32px); }
+  .scope-folder[open] .scope-folder-cover { transform:rotateX(-32deg); }
+  .scope-folder[open] .scope-folder-paper { transform:translateY(-10px) rotate(-5deg); }
+  .scope-folder[open] .scope-folder-bubble { opacity:1; transform:translate(-50%,0) scale(1); }
 }
 @media(max-width:1000px) { .scope-folder-section { gap:28px; grid-template-columns:.85fr 1fr; } }
 @media(min-width:721px) and (max-width:1000px) {
