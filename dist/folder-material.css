@@ -63,3 +63,40 @@
   .scope-folder-enchantment::before,
   .scope-folder-enchantment::after { animation:none; }
 }
+
+/* Only the front coating dissolves. Paper and logo keep their own sharp layers. */
+.scope-folder-cover > svg { opacity:1; transition:opacity 580ms cubic-bezier(.22,.65,.25,1); }
+.scope-folder-glass {
+  position:absolute; inset:12.5% 0 0; border-radius:17.4px;
+  pointer-events:none; opacity:0;
+  background:linear-gradient(135deg,#f4f0fa59,#aea0bb38 46%,#6555704d);
+  border:1px solid #f5f0ff99;
+  box-shadow:inset 0 1px 1px #ffffffb3,inset 0 -1px 2px #33263f33,0 7px 12px #32213e14;
+  -webkit-backdrop-filter:blur(4px) saturate(.8);
+  backdrop-filter:blur(4px) saturate(.8);
+  transition:opacity 580ms cubic-bezier(.22,.65,.25,1);
+}
+.scope-folder-cover .scope-folder-enchantment { transition:opacity 580ms ease; }
+.scope-folder > summary:focus-visible .scope-folder-cover > svg { opacity:.16; }
+.scope-folder > summary:focus-visible .scope-folder-glass { opacity:1; }
+.scope-folder > summary:focus-visible .scope-folder-enchantment { opacity:.45; }
+@media (hover:hover) and (pointer:fine) {
+  .scope-folder > summary:hover .scope-folder-cover > svg { opacity:.16; }
+  .scope-folder > summary:hover .scope-folder-glass { opacity:1; }
+  .scope-folder > summary:hover .scope-folder-enchantment { opacity:.45; }
+}
+@media (hover:none), (pointer:coarse) {
+  .scope-folder[open] .scope-folder-cover > svg { opacity:.16; }
+  .scope-folder[open] .scope-folder-glass { opacity:1; }
+  .scope-folder[open] .scope-folder-enchantment { opacity:.45; }
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))) {
+  .scope-folder-glass { background:linear-gradient(135deg,#ded6e8c9,#9e90afad); }
+}
+@media (prefers-reduced-motion:reduce) {
+  .scope-folder-cover > svg,.scope-folder-glass,.scope-folder-cover .scope-folder-enchantment { transition:none; }
+}
+@media (forced-colors:active) {
+  .scope-folder-glass { display:none; }
+  .scope-folder > summary .scope-folder-cover > svg { opacity:1; }
+}

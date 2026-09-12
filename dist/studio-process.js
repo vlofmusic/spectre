@@ -7,7 +7,7 @@
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const forced=matchMedia('(forced-colors: active)');
   const sources=['knowledge-form','detail-form','prototype-form','perspective-form'];
-  const captions=['Find the structure inside the idea.','Make the knowledge usable.','Bring the core interaction together.','Review the detail before going further.'];
+  const captions=['Find the structure inside the idea.','Bring the product into working form.','Give the idea a visual language.','Bring the product into the world.'];
   let revision=0,frame=0,release=0,overlay=null,visible=true,initialRevealed=false,initialPending=false;
   const bodyAnimations=new Map();
   const canMove=()=>!reduced.matches&&!forced.matches&&!document.hidden&&visible;

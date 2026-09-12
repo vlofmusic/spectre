@@ -152,6 +152,11 @@
   const makeRipple=(target,owner,delay,duration)=>{
     const bounds=target.getBoundingClientRect();
     if(!bounds.width||!bounds.height)return null;
+    const transparent=!!target.closest('.scope-document');
+    const canMask=window.CSS?.supports('mask-image','linear-gradient(#000,#000)')||
+      window.CSS?.supports('-webkit-mask-image','linear-gradient(#000,#000)');
+    // A plain heading is preferable to drawing symbols over unmasked letters.
+    if(transparent&&!canMask)return null;
     const canvas=document.createElement('canvas');
     const context=canvas.getContext('2d');
     if(!context)return null;
@@ -161,6 +166,7 @@
     canvas.className='scope-ripple-canvas';
     canvas.setAttribute('aria-hidden','true');
     canvas.style.animationDuration=`${delay+duration+100}ms`;
+    canvas.style.animationTimingFunction='steps(1, end)';
     context.scale(ratio,ratio);
     const letters=[];
     const walker=document.createTreeWalker(target,NodeFilter.SHOW_TEXT);
@@ -187,11 +193,24 @@
       }
     }
     if(!letters.length)return null;
+    const rows=[];
+    letters.forEach(letter=>{
+      let row=rows.find(item=>Math.abs(item.top-letter.y)<3);
+      if(!row){row={top:letter.y,bottom:letter.y+letter.height,letters:[]};rows.push(row);}
+      row.bottom=Math.max(row.bottom,letter.y+letter.height);
+      row.letters.push(letter);
+    });
+    let ink=null;
+    if(transparent){
+      ink=document.createElement('span');ink.className='scope-native-ink';
+      ink.style.animationDuration=canvas.style.animationDuration;
+      ink.append(...target.childNodes);target.append(ink);
+    }
     target.classList.add('scope-ripple-source');
     target.append(canvas);
     return {
-      target,owner,canvas,context,letters,width:bounds.width,height:bounds.height,total,
-      paper:target.closest('.scope-document')?null:(paperBehind(target)||getComputedStyle(documents).backgroundColor),
+      target,owner,canvas,context,ink,rows,letters,width:bounds.width,height:bounds.height,total,
+      paper:transparent?null:(paperBehind(target)||getComputedStyle(documents).backgroundColor),
       start:performance.now()+delay,duration,lastPaint:-Infinity
     };
   };
@@ -265,7 +284,21 @@
         const front=-3+(elapsed/effect.duration)*(total+6);
         const spread=Math.max(2.6,total/28);
         const wave=letters.filter(letter=>Math.abs(letter.index-front)<spread);
-        if(effect.paper){
+        if(effect.ink){
+          // Cut only the travelling band out of the real ink. The transparent
+          // canvas supplies its replacement symbols over any hover/background.
+          const masks=effect.rows.map(row=>{
+            const hidden=row.letters.filter(letter=>wave.includes(letter));
+            const left=hidden.length?Math.max(0,Math.min(...hidden.map(letter=>letter.x))-.75):0;
+            const right=hidden.length?Math.max(...hidden.map(letter=>letter.x+letter.width))+.75:0;
+            const gradient=hidden.length?
+              `linear-gradient(90deg,#000 ${left}px,transparent ${left}px,transparent ${right}px,#000 ${right}px)`:
+              'linear-gradient(#000 0 0)';
+            return `${gradient} 0 ${Math.max(0,row.top-.5)}px / 100% ${row.bottom-row.top+1}px no-repeat`;
+          }).join(',');
+          effect.ink.style.mask=masks;
+          effect.ink.style.webkitMask=masks;
+        }else if(effect.paper){
           context.fillStyle=effect.paper;
           wave.forEach(letter=>context.fillRect(letter.x-.5,letter.y,letter.width+1,letter.height));
         }

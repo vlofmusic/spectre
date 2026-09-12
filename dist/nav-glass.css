@@ -7,8 +7,8 @@
   background: transparent;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  border-color: #ffffff2b;
-  box-shadow: 0 12px 30px #10101424, 0 2px 7px #10101412;
+  border-color: #ffffff2e;
+  box-shadow: 0 14px 32px #08090c30, 0 3px 8px #08090c1a;
 }
 .glass-nav::before,
 .glass-nav::after {
@@ -21,28 +21,29 @@
 }
 .glass-nav::before {
   /* Also the no-JS and non-SVG fallback. The page itself supplies the backdrop. */
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.05) brightness(.8);
-  backdrop-filter: blur(var(--glass-blur)) saturate(1.05) brightness(.8);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) + 6px)) saturate(.85) brightness(.68);
+  backdrop-filter: blur(calc(var(--glass-blur) + 6px)) saturate(.85) brightness(.68);
 }
 .glass-nav::after {
   background:
-    linear-gradient(var(--glass-angle), #ffffff0d, transparent 23%, transparent 76%, #ffffff09),
-    radial-gradient(ellipse at var(--glass-sheen) -80%, #ffffff12, transparent 66%),
-    linear-gradient(#19191bac, #171719ad);
-  box-shadow: inset 0 1px 1px #ffffff26, inset 0 -1px 1px #ffffff16;
+    linear-gradient(var(--glass-angle), #ffffff0a, transparent 25%, transparent 76%, #ffffff06),
+    radial-gradient(ellipse at var(--glass-sheen) -50%, #ffffff12, transparent 66%),
+    linear-gradient(rgba(29,30,33,.60), rgba(17,18,21,.74));
+  box-shadow: inset 0 1px 0 #ffffff47, inset 0 -1px 0 #ffffff12;
 }
 .glass-nav[data-nav-optics="refraction"]::before {
   /* Frost the scene first, then bend it; the lens edge does not get blurred away. */
-  -webkit-backdrop-filter: blur(var(--glass-blur)) url("#spectre-nav-lens") saturate(1.05) brightness(.8);
-  backdrop-filter: blur(var(--glass-blur)) url("#spectre-nav-lens") saturate(1.05) brightness(.8);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) + 6px)) url("#spectre-nav-lens") saturate(.85) brightness(.68);
+  backdrop-filter: blur(calc(var(--glass-blur) + 6px)) url("#spectre-nav-lens") saturate(.85) brightness(.68);
 }
 .glass-nav .nav-link {
-  text-shadow: 0 1px 4px #08050d45;
+  color:#f7f6f9;
+  text-shadow:0 1px 2px #00000066;
   transition: color 320ms ease, text-shadow 320ms ease;
 }
 .glass-nav .nav-link:is(:hover,:focus-visible) {
   color:#fff;
-  text-shadow:0 0 8px #faf6ff99, 0 0 18px #e6d7ff45;
+  text-shadow:0 1px 2px #00000066, 0 0 6px #ffffff24;
 }
 .glass-nav .nav-link:active { transform:none; }
 .glass-nav .nav-logo:is(:hover,:focus-visible) { transform:none; }
@@ -51,15 +52,15 @@
   transition:filter 360ms ease;
 }
 .glass-nav .nav-logo:is(:hover,:focus-visible) .brand-symbol {
-  filter:brightness(0) invert(1) drop-shadow(0 0 6px #eee5ffbf) drop-shadow(0 0 16px #d9c5ff66);
+  filter:brightness(0) invert(1) drop-shadow(0 0 5px #ffffff40);
 }
 .glass-nav .nav-glide {
   top:0;
   overflow:hidden;
   transform-origin:0 50%;
-  background:#ffffff10;
-  border:1px solid #ffffff14;
-  box-shadow:inset 0 1px 0 #ffffff26, inset 0 0 14px #eee6ff10, 0 0 16px #e6d7ff1c;
+  background:#ffffff0e;
+  border:1px solid #ffffff1f;
+  box-shadow:inset 0 1px 0 #ffffff2b;
   transition:opacity 180ms ease;
 }
 .nav-optics-defs { position:absolute; width:0; height:0; overflow:hidden; pointer-events:none; }
@@ -69,8 +70,8 @@
 @media (prefers-reduced-motion:reduce) {
   .glass-nav::before,
   .glass-nav[data-nav-optics="refraction"]::before {
-    -webkit-backdrop-filter: blur(9px) saturate(1.05) brightness(.8);
-    backdrop-filter: blur(9px) saturate(1.05) brightness(.8);
+    -webkit-backdrop-filter: blur(15px) saturate(.85) brightness(.68);
+    backdrop-filter: blur(15px) saturate(.85) brightness(.68);
   }
   .glass-nav .nav-glide,.glass-nav .nav-link,.glass-nav .nav-logo .brand-symbol { transition:none; }
 }

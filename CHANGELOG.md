@@ -1,3 +1,11 @@
+## 2026-09-13
+
+- Clarify planning, AI web product development, visual identity, CGI, marketing planning and launch across the studio pages.
+- Add a frosted glass folder cover and refine the navigation material.
+- Correct document title symbol replacement and simplify disclosure feedback.
+- Compact the shared footer and soften its background emblem.
+- Verified local links/resources and JavaScript syntax; checked desktop, tablet and mobile layouts.
+
 # Changelog
 
 ## 2026-09-12 — clear disclosure states

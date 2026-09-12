@@ -1,16 +1,17 @@
 /* Quiet document surfaces; motion is reserved for deliberate editorial transitions. */
 .scope-document-list .scope-document {
   position:relative; isolation:isolate; border-radius:0;
+  transition:border-radius 320ms ease;
 }
 .scope-document-list .scope-document[open] {
-  border-radius:16px; border-top-color:transparent;
-  box-shadow:inset 0 0 0 1px #d8d2de;
+  border-radius:16px;
+  box-shadow:none;
 }
 .scope-document-list .scope-document::before {
   content:""; position:absolute; inset:0; z-index:-2; border-radius:inherit;
   pointer-events:none; opacity:0;
-  background:#ece9ef;
-  transition:opacity 260ms ease;
+  background:linear-gradient(110deg,#ffffffb3,#f1eef580);
+  transition:opacity 360ms ease;
 }
 @media(hover:hover) and (pointer:fine) {
   .scope-document-list .scope-document:hover::before { opacity:1; }
@@ -19,7 +20,8 @@
 .scope-document-list .scope-document > summary { position:relative; border-radius:0; }
 .scope-document-list .scope-document[open] > summary { border-radius:16px 16px 0 0; }
 .scope-document-list .scope-document > summary:focus-visible { outline:2px solid #806593; outline-offset:3px; }
-.scope-document-list .scope-document-preview { padding-top:4px; padding-bottom:24px; }
+.scope-document-list .scope-document-preview { padding-top:4px; padding-bottom:24px; position:relative; }
+.scope-document-list .scope-document-preview::before { content:""; position:absolute; top:7px; bottom:27px; left:calc(var(--scope-row-inset) + 12px); width:1px; background:#c5becd; }
 .scope-document-list .scope-document:focus-within { outline-offset:3px; }
 .scope-document-list .scope-document .scope-document-name,
 .scope-document-list .scope-document > summary:hover .scope-document-name { color:#343139; }
@@ -37,6 +39,7 @@
 .ab-apparel:focus-visible { outline:2px solid #766184; outline-offset:5px; }
 @media(prefers-reduced-motion:reduce),(forced-colors:active) {
   .surface-pixel-wave { display:none; }
+  .scope-document-list .scope-document,
   .scope-document-list .scope-document::before,
   .scope-document-list .scope-document > summary { transition:none; }
   .ab-apparel::after { display:none; }
