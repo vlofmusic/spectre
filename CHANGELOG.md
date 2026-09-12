@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-09-12 — clear disclosure states
+- Closed Scope items have straight top dividers; rounded corners appear only on open items.
+- Subtle flat hover feedback fades when the pointer leaves and no longer follows open, focus or selected-preview state.
+- Kept keyboard focus indicators, smooth expansion and existing item padding.
+
 ## 2026-09-12 — quieter document surfaces
 - Smoothed document opening with a 420ms interrupted-height transition; original text resolves inside the expanding row.
 - Widened the document column, balanced outer spacing and increased item padding to 20px per side (16px on mobile).
