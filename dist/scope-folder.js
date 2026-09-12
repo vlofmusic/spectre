@@ -50,6 +50,7 @@
   };
   const removeEffect=effect=>{
     effect.canvas.remove();
+    if(effect.ink?.isConnected)effect.ink.replaceWith(...effect.ink.childNodes);
     effect.target.classList.remove('scope-ripple-source');
     effects.delete(effect);
   };
@@ -188,7 +189,7 @@
     target.append(canvas);
     return {
       target,owner,canvas,context,letters,width:bounds.width,height:bounds.height,total,
-      paper:paperBehind(target)||getComputedStyle(documents).backgroundColor,
+      paper:target.closest('.scope-document')?null:(paperBehind(target)||getComputedStyle(documents).backgroundColor),
       start:performance.now()+delay,duration,lastPaint:-Infinity
     };
   };
@@ -196,17 +197,31 @@
   const paintWriting=(effect,elapsed)=>{
     const {context}=effect;
     context.clearRect(0,0,effect.width,effect.height);
+    const masks=[];
     effect.lines.forEach(line=>{
       const local=elapsed-line.start;
-      if(local>=line.duration)return;
+      if(local>=line.duration){
+        const top=Math.min(...line.letters.map(letter=>letter.y));
+        const bottom=Math.max(...line.letters.map(letter=>letter.y+letter.height));
+        masks.push(`linear-gradient(#000 0 0) 0 ${Math.max(0,top-.5)}px / 100% ${bottom-top+1}px no-repeat`);
+        return;
+      }
       const progress=Math.max(0,local/line.duration);
       const unresolved=line.letters.filter((letter,index)=>
         local<0||progress<.2+.72*(index+1)/line.letters.length
       );
       // Future lines wait on the paper. Only the current line shows moving symbols.
       // Clearing a resolved glyph exposes the original HTML, including its emphasis.
-      context.fillStyle=effect.paper;
-      unresolved.forEach(letter=>context.fillRect(letter.x-.5,letter.y-.5,letter.width+1,letter.height+1));
+      if(effect.ink){
+        const resolved=line.letters.filter(letter=>!unresolved.includes(letter));
+        const end=resolved.length?Math.max(...resolved.map(letter=>letter.x+letter.width))+.5:0;
+        const top=Math.min(...line.letters.map(letter=>letter.y));
+        const bottom=Math.max(...line.letters.map(letter=>letter.y+letter.height));
+        masks.push(`linear-gradient(#000 0 0) 0 ${Math.max(0,top-.5)}px / ${end}px ${bottom-top+1}px no-repeat`);
+      }else{
+        context.fillStyle=effect.paper;
+        unresolved.forEach(letter=>context.fillRect(letter.x-.5,letter.y-.5,letter.width+1,letter.height+1));
+      }
       if(local<0)return;
       const tick=Math.floor(local/70);
       unresolved.forEach(letter=>{
@@ -222,6 +237,11 @@
         context.restore();
       });
     });
+    if(effect.ink){
+      const mask=masks.join(',')||'linear-gradient(transparent,transparent)';
+      effect.ink.style.mask=mask;
+      effect.ink.style.webkitMask=mask;
+    }
   };
 
   const paint=now=>{
@@ -243,8 +263,10 @@
         const front=-3+(elapsed/effect.duration)*(total+6);
         const spread=Math.max(2.6,total/28);
         const wave=letters.filter(letter=>Math.abs(letter.index-front)<spread);
-        context.fillStyle=effect.paper;
-        wave.forEach(letter=>context.fillRect(letter.x-.5,letter.y,letter.width+1,letter.height));
+        if(effect.paper){
+          context.fillStyle=effect.paper;
+          wave.forEach(letter=>context.fillRect(letter.x-.5,letter.y,letter.width+1,letter.height));
+        }
         wave.forEach(letter=>{
           context.save();
           context.beginPath();context.rect(letter.x-.5,letter.y,letter.width+1,letter.height);context.clip();
@@ -339,8 +361,14 @@
     // crossfade waiting lines into view before their scheduled symbol resolve.
     canvas.style.animationTimingFunction='steps(1, end)';
     context.scale(ratio,ratio);
+    let ink=null;
+    if(target.closest('.scope-document')&&window.CSS?.supports('mask-image','linear-gradient(#000,#000)')){
+      ink=document.createElement('span');ink.className='scope-native-ink';
+      ink.append(...target.childNodes);target.append(ink);
+      ink.style.animationDuration=`${duration+220}ms`;
+    }
     const effect={
-      ...measurement,owner,canvas,context,mode:'writing',start,duration,lastPaint:-Infinity,paper
+      ...measurement,owner,canvas,context,ink,mode:'writing',start,duration,lastPaint:-Infinity,paper
     };
     paintWriting(effect,-1);
     target.classList.add('scope-ripple-source');target.append(canvas);

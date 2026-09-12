@@ -1,0 +1,99 @@
+/* One quiet reflection on the real email link; no loop or replacement text. */
+.page-studio .contact-panel .contact-address {
+  position:relative;
+  color:#e4dceb;
+  transition:border-color 560ms ease,color 560ms ease;
+}
+.page-studio .contact-panel .contact-address::before {
+  content:"";
+  position:absolute;
+  top:-1px;
+  left:0;
+  width:100%;
+  height:1px;
+  pointer-events:none;
+  background:linear-gradient(90deg,transparent,#d0c3de 32%,#fff 50%,#d0c3de 68%,transparent);
+  opacity:0;
+  transform:scaleX(.45);
+  transition:opacity 560ms ease,transform 720ms cubic-bezier(.2,.7,.2,1);
+}
+.page-studio .contact-panel .contact-address > span:first-child {
+  animation:none;
+  transition:background-position 1000ms cubic-bezier(.2,.7,.2,1),text-shadow 560ms ease;
+}
+.page-studio .contact-panel .contact-address::after { display:none; }
+@supports ((background-clip:text) or (-webkit-background-clip:text)) {
+  .page-studio .contact-panel .contact-address > span:first-child {
+    background:linear-gradient(108deg,#e4dceb 0%,#e4dceb 39%,#fff 48%,#f3edf8 52%,#e4dceb 61%,#e4dceb 100%);
+    background-size:280% 100%;
+    background-position:100% 0;
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+}
+.page-studio .contact-panel .contact-address-arrow {
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  border:1px solid #ffffff5c;
+  border-radius:22px;
+  background:linear-gradient(145deg,#f0e8f7,#cdbedc);
+  box-shadow:inset 0 1px 0 #fff9,0 4px 16px #05030818;
+  transform:none;
+  transition:transform 560ms cubic-bezier(.2,.7,.2,1),box-shadow 560ms ease,border-color 560ms ease;
+}
+.page-studio .contact-panel .contact-address-arrow::before {
+  content:"";
+  position:absolute;
+  inset:-50%;
+  z-index:-1;
+  pointer-events:none;
+  background:linear-gradient(110deg,transparent 30%,#ffffffa6 50%,transparent 70%);
+  transform:translateX(-85%);
+  transition:transform 850ms cubic-bezier(.2,.7,.2,1);
+}
+.page-studio .contact-panel .contact-address:is(:hover,:focus-visible) {
+  color:#fff;
+  border-color:#a291b3;
+}
+.page-studio .contact-panel .contact-address:is(:hover,:focus-visible)::before { opacity:.85; transform:scaleX(1); }
+.page-studio .contact-panel .contact-address:is(:hover,:focus-visible) > span:first-child {
+  background-position:0 0;
+  text-shadow:0 0 24px #e5d7f00d;
+}
+.page-studio .contact-panel .contact-address:is(:hover,:focus-visible) .contact-address-arrow {
+  transform:translate(3px,-3px);
+  border-color:#ffffffa3;
+  box-shadow:inset 0 1px 0 #fff,0 6px 22px #06020928;
+}
+.page-studio .contact-panel .contact-address:is(:hover,:focus-visible) .contact-address-arrow::before { transform:translateX(85%); }
+.page-studio .contact-panel .contact-address:focus-visible { outline:2px solid #d4c1e6; outline-offset:9px; border-radius:8px; }
+.page-studio .contact-panel .contact-address:active .contact-address-arrow { transform:translate(1px,-1px) scale(.97); }
+@media(max-width:720px) {
+  .page-studio .contact-panel .contact-address-arrow { width:44px; height:44px; border-radius:16px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .page-studio .contact-panel .contact-address,
+  .page-studio .contact-panel .contact-address::before,
+  .page-studio .contact-panel .contact-address > span:first-child,
+  .page-studio .contact-panel .contact-address-arrow,
+  .page-studio .contact-panel .contact-address-arrow::before { transition:none; }
+  .page-studio .contact-panel .contact-address .contact-address-arrow,
+  .page-studio .contact-panel .contact-address:is(:hover,:focus-visible,:active) .contact-address-arrow { transform:none; }
+  .page-studio .contact-panel .contact-address::before,
+  .page-studio .contact-panel .contact-address-arrow::before { display:none; }
+  .page-studio .contact-panel .contact-address > span:first-child { background:none; -webkit-text-fill-color:currentColor; text-shadow:none; }
+}
+@media(prefers-contrast:more),(forced-colors:active) {
+  .page-studio .contact-panel .contact-address > span:first-child { background:none; -webkit-text-fill-color:currentColor; text-shadow:none; }
+  .page-studio .contact-panel .contact-address::before,
+  .page-studio .contact-panel .contact-address-arrow::before { display:none; }
+}
+@media(forced-colors:active) {
+  .page-studio .contact-panel .contact-address,
+  .page-studio .contact-panel .contact-address:is(:hover,:focus-visible) { color:LinkText; border-color:LinkText; }
+  .page-studio .contact-panel .contact-address .contact-address-arrow,
+  .page-studio .contact-panel .contact-address:is(:hover,:focus-visible,:active) .contact-address-arrow { color:LinkText; background:Canvas; border-color:LinkText; box-shadow:none; transform:none; }
+  .page-studio .contact-panel .contact-address:focus-visible { outline-color:Highlight; }
+}

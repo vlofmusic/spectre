@@ -1,0 +1,38 @@
+/* Shared interaction material: the content remains native, the light is decorative. */
+.scope-document-list .scope-document {
+  position:relative; isolation:isolate; border-radius:16px;
+}
+.scope-document-list .scope-document::before {
+  content:""; position:absolute; inset:0; z-index:-2; border-radius:inherit;
+  pointer-events:none; opacity:0;
+  background:radial-gradient(ellipse at 18% 24%,#fdfbffb3,transparent 65%),linear-gradient(115deg,#e5dcee,#efebf5 42%,#dfd3e9 72%,#eae3f1);
+  background-size:100% 100%,220% 160%; background-position:0 0,0% 40%;
+  transition:opacity 420ms ease;
+}
+.scope-document-list .scope-document:is([open],.is-preview-current,:hover,:focus-within)::before { opacity:1; }
+.scope-document-list .scope-document.is-surface-active::before { animation:surface-light-drift 6s ease-in-out infinite alternate; }
+.scope-document-list .scope-document.is-preview-current > summary { background:transparent; }
+.scope-document-list .scope-document > summary { position:relative; transition:color 350ms ease; border-radius:16px; }
+.scope-document-list .scope-document-preview { padding-top:4px; padding-bottom:24px; }
+.scope-document-list .scope-document:focus-within { outline-offset:3px; }
+@keyframes surface-light-drift { from { background-position:0 0,0% 40%; } to { background-position:0 0,100% 65%; } }
+.surface-pixel-wave { display:block; position:absolute; pointer-events:none; user-select:none; border-radius:inherit; }
+.scope-document > .surface-pixel-wave,.scope-document > summary > .surface-pixel-wave { inset:0; width:100%; height:100%; z-index:-1; }
+.ap-editorial-large > .surface-pixel-wave { z-index:1; border-radius:var(--spectre-radius-lg,32px); }
+.ab-apparel { position:relative; isolation:isolate; overflow:hidden; }
+.ab-apparel::after {
+  content:""; position:absolute; inset:-50%; z-index:-1; pointer-events:none;
+  background:linear-gradient(110deg,transparent 38%,#ffffff5e 50%,transparent 62%);
+  transform:translateX(-48%); transition:transform 1100ms cubic-bezier(.2,.7,.2,1);
+}
+.ab-apparel:is(:hover,:focus-visible)::after { transform:translateX(48%); }
+.ab-apparel:focus-visible { outline:2px solid #766184; outline-offset:5px; }
+@media(prefers-reduced-motion:reduce),(forced-colors:active) {
+  .surface-pixel-wave { display:none; }
+  .scope-document-list .scope-document::before { animation:none!important; transition:none; }
+  .ab-apparel::after { display:none; }
+}
+@media(forced-colors:active) {
+  .scope-document-list .scope-document::before { display:none; }
+  .scope-document-list .scope-document:is([open],.is-preview-current) { outline:1px solid Highlight; }
+}

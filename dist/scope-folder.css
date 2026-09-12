@@ -36,11 +36,11 @@
 .scope-documents { margin-top:14px; padding:22px; border:1px solid #c2b5cc; border-radius:26px; background:#f7f4f9; }
 .scope-documents-note { margin:0 0 18px; color:#776780; font-size:.8125rem; line-height:1.55; }
 .scope-document { border-top:1px solid #d8cddd; }
-.scope-document > summary { display:grid; grid-template-columns:28px minmax(0,1fr) 18px; align-items:center; gap:10px; min-height:65px; padding:14px 0; list-style:none; cursor:pointer; outline-offset:4px; }
+.scope-document > summary { display:grid; grid-template-columns:28px minmax(0,1fr) 18px; align-items:center; gap:10px; min-height:88px; padding:18px 0; list-style:none; cursor:pointer; outline-offset:4px; }
 .scope-document > summary:focus-visible { outline:2px solid #806593; border-radius:5px; }
-.scope-document-number { color:#a08aae; font-size:.75rem; font-variant-numeric:tabular-nums; }
-.scope-document-name { display:block; color:#35253f; font-size:.875rem; overflow-wrap:anywhere; }
-.scope-document-type { display:block; color:#897593; font-size:.75rem; line-height:1.45; margin-top:3px; }
+.scope-document-number { color:#83718f; font-size:.875rem; font-variant-numeric:tabular-nums; }
+.scope-document-name { display:block; color:#35253f; font-size:clamp(1.25rem,2vw,1.625rem); font-weight:500; line-height:1.25; letter-spacing:-.025em; overflow-wrap:anywhere; }
+.scope-document-type { display:block; color:#74627f; font-size:.875rem; line-height:1.45; margin-top:6px; }
 .scope-document > summary::after { content:"+"; justify-self:end; color:#826e8e; font-size:18px; }
 .scope-document[open] > summary::after { content:"−"; }
 .scope-document-preview { padding:0 0 20px 38px; color:#67536f; }
@@ -66,7 +66,7 @@
 .scope-visual-card .scope-visual-ink { stroke:#766184; stroke-width:2; }
 .scope-visual-card .scope-visual-dashed { stroke-dasharray:4 5; }
 .scope-visual-card figcaption { display:flex; flex-direction:column; gap:6px; padding:5px 0 2px; }
-.scope-visual-card figcaption strong { color:#3c3047; font-size:1rem; font-weight:500; letter-spacing:-.02em; }
+.scope-visual-card figcaption strong { color:#3c3047; font-size:1.25rem; font-weight:500; line-height:1.25; letter-spacing:-.025em; }
 .scope-visual-card figcaption > span { color:#786b82; font-size:.75rem; line-height:1.5; }
 .scope-document-list { min-width:0; }
 .scope-document-list .scope-document > summary { padding-inline:10px; border-radius:12px; transition:background-color 220ms ease; }
@@ -149,3 +149,8 @@
 @media(prefers-reduced-motion:reduce),(forced-colors:active) {
   .scope-ripple-canvas { display:none; animation:none; }
 }
+
+/* Transparent native-ink masks keep symbol resolve compatible with the whole-card gradient. */
+.scope-native-ink { display:block; animation:scope-ink-release 4s steps(1,end) forwards; }
+@keyframes scope-ink-release { 100% { mask-image:none; -webkit-mask-image:none; } }
+@media(prefers-reduced-motion:reduce),(forced-colors:active) { .scope-native-ink { mask:none!important; -webkit-mask:none!important; animation:none; } }

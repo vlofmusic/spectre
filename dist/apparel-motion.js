@@ -3,6 +3,7 @@
   const hero = document.querySelector('[data-apparel-ambient]');
   const photo = document.querySelector('[data-zoom]');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const forced = matchMedia('(forced-colors: active)');
   const fine = matchMedia('(hover: hover) and (pointer: fine)');
   let heroVisible = true, frame = 0, bounds = null, pointer = null;
   const resetPointer = () => {
@@ -10,17 +11,18 @@
     photo.classList.remove('is-photo-tracking');
   };
   const sync = () => {
-    hero.toggleAttribute('data-ambient-active', heroVisible && !document.hidden && !reduce.matches);
-    if (reduce.matches || !fine.matches || document.hidden || !heroVisible) resetPointer();
+    hero.toggleAttribute('data-ambient-active', heroVisible && !document.hidden && !reduce.matches && !forced.matches);
+    if (reduce.matches || forced.matches || !fine.matches || document.hidden || !heroVisible) resetPointer();
   };
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(([entry]) => { heroVisible = entry.isIntersecting; sync(); }).observe(hero);
   }
   document.addEventListener('visibilitychange',sync);
   reduce.addEventListener('change',sync);
+  forced.addEventListener('change',sync);
   fine.addEventListener('change',sync);
   photo.addEventListener('pointermove',event => {
-    if (reduce.matches || !fine.matches || event.pointerType==='touch') return;
+    if (reduce.matches || forced.matches || !fine.matches || event.pointerType==='touch') return;
     pointer = { x:event.clientX, y:event.clientY };
     if (!frame) frame=requestAnimationFrame(() => {
       frame=0;
@@ -43,7 +45,7 @@
     action.style.removeProperty('--glass-x'); action.style.removeProperty('--glass-y');
   };
   action.addEventListener('pointermove',event => {
-    if (reduce.matches || !fine.matches || event.pointerType==='touch') return;
+    if (reduce.matches || forced.matches || !fine.matches || event.pointerType==='touch') return;
     actionPoint={x:event.clientX,y:event.clientY};
     if (!actionFrame) actionFrame=requestAnimationFrame(() => {
       actionFrame=0;
@@ -54,6 +56,7 @@
   },{passive:true});
   ['pointerleave','pointercancel'].forEach(event=>action.addEventListener(event,clearActionLight));
   reduce.addEventListener('change',clearActionLight);
+  forced.addEventListener('change',clearActionLight);
   fine.addEventListener('change',clearActionLight);
   document.addEventListener('visibilitychange',clearActionLight);
   const editorialImage = document.querySelector('.ap-editorial-large img');
@@ -62,19 +65,39 @@
     front: ['tests15419','Another front view of the black Spectre Hoodie','The light emblem, from the front.'],
     back: ['tests15449','Back view showing the tonal embroidery','The silhouette, from another angle.']
   };
-  document.querySelectorAll('[data-editorial-view]').forEach(button => {
-    button.addEventListener('click',() => {
+  const editorial = editorialImage.closest('.ap-editorial-large');
+  const viewButtons = [...document.querySelectorAll('[data-editorial-view]')];
+  let viewRevision = 0;
+  editorialCaption.setAttribute('aria-live','polite');
+  viewButtons.forEach(button => {
+    button.addEventListener('click',async () => {
+      const request=++viewRevision;
       const [file,alt,caption] = views[button.dataset.editorialView];
-      editorialImage.srcset = `assets/apparel/${file}-960.webp 960w, assets/apparel/${file}-1600.webp 1600w`;
-      editorialImage.src = `assets/apparel/${file}-960.webp`;
-      editorialImage.alt = alt;
-      editorialCaption.textContent = caption;
-      document.querySelectorAll('[data-editorial-view]').forEach(item => item.setAttribute('aria-pressed',String(item===button)));
-      if (!reduce.matches && editorialImage.animate) editorialImage.animate(
-        [{opacity:.55,filter:'blur(7px)',transform:'scale(1.015)'},{opacity:1,filter:'blur(0px)',transform:'scale(1)'}],
-        {duration:380,easing:'cubic-bezier(.2,.7,.2,1)'}
-      );
+      editorial.setAttribute('aria-busy','true');
+      const next=new Image();
+      next.sizes=editorialImage.sizes;
+      next.srcset=`assets/apparel/${file}-960.webp 960w, assets/apparel/${file}-1600.webp 1600w`;
+      next.src=`assets/apparel/${file}-960.webp`;
+      let timer;
+      try {
+        await Promise.race([next.decode(),new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('Image timeout')),6500);})]);
+        if(request!==viewRevision)return;
+        const previous=new Image();previous.src=editorialImage.currentSrc||editorialImage.src;
+        try { await previous.decode(); } catch {}
+        if(request!==viewRevision)return;
+        window.SpectreSurface?.stop(editorial);
+        editorialImage.srcset=next.srcset;editorialImage.src=next.src;editorialImage.alt=alt;
+        editorialCaption.textContent=caption;
+        viewButtons.forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+        if(!reduce.matches&&!forced.matches&&!document.hidden) window.SpectreSurface?.revealImage(editorial,editorialImage,previous);
+      } catch {
+        if(request===viewRevision)editorialCaption.textContent='This view could not be loaded. Please try again.';
+      } finally {
+        clearTimeout(timer);
+        if(request===viewRevision)editorial.removeAttribute('aria-busy');
+      }
     });
   });
+  addEventListener('pagehide',()=>{viewRevision++;editorial.removeAttribute('aria-busy');resetPointer();clearActionLight();});
   sync();
 })();

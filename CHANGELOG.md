@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-09-12 — clearer navigation and coordinated interactions
+- Larger document headings with whole-card gradient highlights and finite pixel/symbol feedback.
+- Refined shared footer with oversized Fusion background, grouped navigation and direct contact.
+- Soft email reflection, staggered About entrances and decoded Apparel image transitions.
+- Original content remains readable; motion preferences and keyboard access are preserved.
+- Cart, reservation, inventory and notification services are unchanged. CRT remains excluded.
+
 ## 2026-09-12 — version 7 source update
 
 - Redesigned the shared footer with an oversized cropped Fusion emblem, clearer navigation and contact links, and a finite pixel/ASCII pointer response.
