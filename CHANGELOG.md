@@ -1,3 +1,7 @@
+## 2026-09-13 — Footer background placement
+
+Moved the decorative footer emblem higher with responsive offsets.
+
 ## 2026-09-13 — Footer emblem alignment
 
 Raised the decorative footer emblem further across desktop, tablet and mobile layouts.
