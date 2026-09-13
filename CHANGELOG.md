@@ -1,3 +1,7 @@
+## 2026-09-13 — Footer composition
+
+Raised the decorative footer emblem across desktop, tablet and mobile layouts.
+
 ## 2026-09-13 — folder interaction
 
 - Close the folder artwork when hover ends, independently of the open document list. Preserve keyboard and touch interaction.
