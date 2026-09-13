@@ -1,3 +1,7 @@
+## 2026-09-13 — Footer emblem alignment
+
+Raised the decorative footer emblem further across desktop, tablet and mobile layouts.
+
 ## 2026-09-13 — First-phase explanation
 
 Added a finite, replayable transition from random symbols to clear project priorities, with accessible static content and motion preferences.
